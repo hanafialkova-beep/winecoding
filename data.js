@@ -103,6 +103,7 @@ const WineCodeData = {
     adminPassword: "wine2026",
 
     // Výchozí/ukázkové projekty (zobrazí se všem)
+    // UPRAV URL na skutečnou adresu projektu!
     defaultProjects: [
         {
             id: "demo1",
@@ -110,7 +111,7 @@ const WineCodeData = {
             description: "Interaktivní hra pro děti, která je učí bezpečně přecházet silnici a orientovat se ve městě. Vytvořeno pro mou dceru, teď to používá celá její třída.",
             category: "education",
             story: "Jednou večer jsem přemýšlela, jak naučit dceru bezpečně chodit ze školy. Místo nudného vysvětlování jsem vytvořila hru, kde si to může vyzkoušet nanečisto.",
-            url: "https://example.com/bezpecna-cesta",
+            url: "bezpecna-cesta-domu.html", // Relativní odkaz na hru
             authorName: "Hana",
             status: "approved",
             submittedAt: "2026-01-15T20:00:00.000Z",
@@ -136,18 +137,20 @@ const WineCodeData = {
         
         // Přidáme výchozí projekty (s vygenerovanými obrázky)
         const defaultWithImages = this.defaultProjects.map(p => {
-            if (!p.image) {
-                p.image = this.generateProjectImage(p.name, p.description, p.category);
+            const project = { ...p };
+            if (!project.image) {
+                project.image = this.generateProjectImage(project.name, project.description, project.category);
             }
-            return p;
+            return project;
         });
         
-        // Kombinujeme - lokální projekty mají přednost (pro případ editace)
+        // Kombinujeme - filtrujeme duplicity podle názvu
         const allProjects = [...defaultWithImages];
+        const defaultNames = defaultWithImages.map(p => p.name.toLowerCase());
         
         localProjects.forEach(lp => {
-            // Přidáme jen pokud není v defaultních (podle id)
-            if (!allProjects.find(dp => dp.id === lp.id)) {
+            // Přidáme jen pokud nemá stejný název jako defaultní projekt
+            if (!defaultNames.includes(lp.name.toLowerCase())) {
                 allProjects.push(lp);
             }
         });
@@ -175,10 +178,14 @@ const WineCodeData = {
     },
 
     getApprovedProjects(category = null) {
-        const projects = this.getProjects().filter(p => p.status === 'approved');
+        // Získáme všechny projekty včetně defaultních
+        let projects = this.getProjects().filter(p => p.status === 'approved');
+        
         if (category) {
-            return projects.filter(p => p.category === category);
+            projects = projects.filter(p => p.category === category);
         }
+        
+        console.log('Approved projects:', projects.length, category || 'all');
         return projects;
     },
 
