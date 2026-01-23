@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WineCoding | Sip. Code. Share.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <!-- Floating elements -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" fill="currentColor" opacity="0.2"/>
+                <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 24V28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 28H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            WineCoding
+        </a>
+        <div class="nav-links">
+            <a href="projects.html" class="nav-link">Projekty</a>
+            <a href="admin.html" class="nav-link">Admin</a>
+            <a href="submit.html" class="nav-cta">Přidej projekt</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <span class="hero-badge" data-text="hero.badge">✨ Nová platforma pro passion projekty</span>
+        <h1 data-text="hero.title">Sip. Code. <span>Share.</span></h1>
+        <p class="hero-subtitle" data-text="hero.subtitle">
+            Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. 
+            Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo při skleničce vína a dobré náladě.
+        </p>
+        <div class="hero-cta">
+            <a href="projects.html" class="btn-primary">
+                Prohlédni projekty
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <a href="submit.html" class="btn-secondary">
+                Přidej svůj
+            </a>
+        </div>
+        <a href="#concept" class="hero-scroll">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </a>
+    </section>
+
+    <!-- Concept Section -->
+    <section class="concept" id="concept">
+        <div class="concept-inner">
+            <h2 data-text="concept.title">Vibecoding pro radost</h2>
+            <p class="concept-lead" data-text="concept.lead">
+                Ne každý projekt musí vydělávat. Některé vznikají prostě proto, že je to baví. 
+                WineCoding je platforma, kde tyto projekty najdou své lidi.
+            </p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="concept-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="20" fill="currentColor" opacity="0.15"/>
+                            <path d="M24 8C24 8 32 14 32 24C32 28.4183 28.4183 32 24 32C19.5817 32 16 28.4183 16 24C16 14 24 8 24 8Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="24" cy="22" r="4" fill="currentColor"/>
+                            <path d="M24 32V38M20 38H28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 data-text="concept.card1.title">Sdílej své nápady</h3>
+                    <p data-text="concept.card1.text">Vytvořil/a jsi něco cool při večerním codingu? Nahraj to a podělij se s ostatními. Žádné složité procesy, žádné poplatky.</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="20" fill="currentColor" opacity="0.15"/>
+                            <circle cx="22" cy="22" r="8" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <path d="M28 28L36 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M19 20L22 23L26 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 data-text="concept.card2.title">Objevuj poklady</h3>
+                    <p data-text="concept.card2.text">Najdi vzdělávací hry pro děti, produktivní nástroje, kreativní apky — věci, které by jinak zůstaly schované na něčím GitHubu.</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="20" fill="currentColor" opacity="0.15"/>
+                            <path d="M24 14C20 14 17 17.5 17 21C17 28 24 34 24 34C24 34 31 28 31 21C31 17.5 28 14 24 14Z" fill="currentColor"/>
+                            <path d="M24 14C20 14 17 17.5 17 21C17 28 24 34 24 34C24 34 31 28 31 21C31 17.5 28 14 24 14Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3 data-text="concept.card3.title">Příběhy za kódem</h3>
+                    <p data-text="concept.card3.text">Každý projekt má svůj příběh. Proč vznikl? Co autora inspirovalo? Tady nejde jen o kód, ale o lidi za ním.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="categories-inner">
+            <div class="section-header">
+                <h2 data-text="categories.title">Co tu najdeš?</h2>
+                <p data-text="categories.subtitle">Projekty všech barev a chutí — jako dobře vybavený wine bar</p>
+            </div>
+            <div class="categories-grid">
+                <a href="projects.html?category=education" class="category-card" data-category="education">
+                    <div class="category-icon-wrapper" style="--accent: #722F37">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 12L8 24L32 36L56 24L32 12Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <path d="M16 28V42L32 50L48 42V28" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <path d="M56 24V40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="category-content">
+                        <h3>Vzdělávání</h3>
+                        <p>Apky pro děti, učební pomůcky, kvízy</p>
+                    </div>
+                    <div class="category-count">
+                        <span class="count" data-category-count="education">0</span> projektů
+                    </div>
+                </a>
+
+                <a href="projects.html?category=home" class="category-card" data-category="home">
+                    <div class="category-icon-wrapper" style="--accent: #5C7C6E">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 28L32 12L52 28V52H12V28Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <rect x="26" y="36" width="12" height="16" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="35" cy="44" r="1.5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="category-content">
+                        <h3>Domácnost</h3>
+                        <p>Organizace, rodinný život, plánování</p>
+                    </div>
+                    <div class="category-count">
+                        <span class="count" data-category-count="home">0</span> projektů
+                    </div>
+                </a>
+
+                <a href="projects.html?category=creative" class="category-card" data-category="creative">
+                    <div class="category-icon-wrapper" style="--accent: #8B5A7C">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="40" r="10" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="40" cy="40" r="10" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="32" cy="24" r="10" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="category-content">
+                        <h3>Kreativita</h3>
+                        <p>Generátory, nástroje pro tvůrce</p>
+                    </div>
+                    <div class="category-count">
+                        <span class="count" data-category-count="creative">0</span> projektů
+                    </div>
+                </a>
+
+                <a href="projects.html?category=wellbeing" class="category-card" data-category="wellbeing">
+                    <div class="category-icon-wrapper" style="--accent: #6B8E6B">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 52C32 52 12 40 12 26C12 18 18 12 26 12C30 12 32 16 32 16C32 16 34 12 38 12C46 12 52 18 52 26C52 40 32 52 32 52Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="category-content">
+                        <h3>Wellbeing</h3>
+                        <p>Zdraví, mindfulness, habits</p>
+                    </div>
+                    <div class="category-count">
+                        <span class="count" data-category-count="wellbeing">0</span> projektů
+                    </div>
+                </a>
+
+                <a href="projects.html?category=fun" class="category-card" data-category="fun">
+                    <div class="category-icon-wrapper" style="--accent: #C4956A">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="12" y="20" width="40" height="28" rx="4" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="24" cy="32" r="4" fill="currentColor"/>
+                            <circle cx="40" cy="32" r="4" fill="currentColor"/>
+                            <path d="M26 40C28 44 36 44 38 40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="category-content">
+                        <h3>Zábava</h3>
+                        <p>Hry, kvízy, fun projekty</p>
+                    </div>
+                    <div class="category-count">
+                        <span class="count" data-category-count="fun">0</span> projektů
+                    </div>
+                </a>
+
+                <a href="projects.html?category=utility" class="category-card" data-category="utility">
+                    <div class="category-icon-wrapper" style="--accent: #6B7B8E">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M28 12L20 28H28L24 40L40 22H30L36 12H28Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="32" cy="44" r="8" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <path d="M32 40V48M28 44H36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="category-content">
+                        <h3>Utility</h3>
+                        <p>Pomocné nástroje, kalkulačky</p>
+                    </div>
+                    <div class="category-count">
+                        <span class="count" data-category-count="utility">0</span> projektů
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stories Section -->
+    <section class="stories">
+        <div class="stories-inner">
+            <div class="section-header">
+                <h2 data-text="story.title">Příběhy u vína</h2>
+                <p data-text="story.subtitle">Každý projekt má svůj příběh</p>
+            </div>
+            <div class="story-card">
+                <div class="story-decoration">
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="60" cy="60" r="50" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+                        <circle cx="60" cy="60" r="35" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+                        <circle cx="60" cy="60" r="20" stroke="currentColor" stroke-width="1" opacity="0.1"/>
+                    </svg>
+                </div>
+                <div class="story-quote-mark">"</div>
+                <p class="story-text" data-text="story.quote">
+                    Jednou večer, když dcera usnula, jsem si nalila skleničku vína a začala přemýšlet, 
+                    jak jí usnadnit učení matematiky. Do půlnoci jsem měla hotovou první verzi 
+                    hry s příklady. Teď ji používá celá její třída.
+                </p>
+                <div class="story-author">
+                    <div class="story-avatar">
+                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="16" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 36C8 28 13 24 20 24C27 24 32 28 32 36" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="story-author-info">
+                        <h4 data-text="story.author">Inspirační příběh</h4>
+                        <p data-text="story.authorSub">Takové příběhy chceme sbírat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="signup">
+        <div class="cta-inner">
+            <div class="cta-icon">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="35" stroke="currentColor" stroke-width="2" opacity="0.2"/>
+                    <path d="M40 20C40 20 28 28 28 40C28 46.6274 33.3726 52 40 52C46.6274 52 52 46.6274 52 40C52 28 40 20 40 20Z" stroke="currentColor" stroke-width="2.5"/>
+                    <path d="M40 52V60M34 60H46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M25 30L20 25M55 30L60 25M40 15V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                </svg>
+            </div>
+            <h2 data-text="cta.title">Máš projekt, který stojí za sdílení?</h2>
+            <p data-text="cta.subtitle">
+                Přidej ho na WineCoding a najdi lidi, kterým pomůže. 
+                Žádné poplatky, žádné složitosti — jen tvůj projekt a jeho příběh.
+            </p>
+            <a href="submit.html" class="btn-primary btn-large">
+                Přidat projekt
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+            </a>
+            <p class="cta-note" data-text="cta.note">Každý projekt projde rychlou kontrolou, abychom udrželi kvalitu.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" fill="currentColor" opacity="0.3"/>
+                        <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 24V28M12 28H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    WineCoding
+                </div>
+                <p class="footer-tagline" data-text="footer.tagline">Code with joy, share with love.</p>
+            </div>
+            <div class="footer-links">
+                <a href="projects.html">Projekty</a>
+                <a href="submit.html">Přidat projekt</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            <p class="footer-copy">© 2026 WineCoding. Made with 🍷, 🤖 and ❤️</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        // Update category counts
+        function updateCategoryCounts() {
+            const categories = ['education', 'home', 'creative', 'wellbeing', 'fun', 'utility'];
+            categories.forEach(cat => {
+                const count = WineCodeData.getApprovedProjects(cat).length;
+                const el = document.querySelector(`[data-category-count="${cat}"]`);
+                if (el) el.textContent = count;
+            });
+        }
+
+        // Load dynamic texts from localStorage
+        function loadTexts() {
+            const texts = WineCodeData.texts;
+            
+            // Hero section
+            if (texts.hero) {
+                const badge = document.querySelector('[data-text="hero.badge"]');
+                const title = document.querySelector('[data-text="hero.title"]');
+                const subtitle = document.querySelector('[data-text="hero.subtitle"]');
+                
+                if (badge && texts.hero.badge) badge.textContent = texts.hero.badge;
+                if (title && texts.hero.title) {
+                    // Preserve the italic styling on last word
+                    const words = texts.hero.title.split(' ');
+                    if (words.length > 1) {
+                        const lastWord = words.pop();
+                        title.innerHTML = words.join(' ') + ' <span>' + lastWord + '</span>';
+                    } else {
+                        title.textContent = texts.hero.title;
+                    }
+                }
+                if (subtitle && texts.hero.subtitle) subtitle.textContent = texts.hero.subtitle;
+            }
+            
+            // Concept section
+            if (texts.concept) {
+                const conceptTitle = document.querySelector('[data-text="concept.title"]');
+                const conceptLead = document.querySelector('[data-text="concept.lead"]');
+                
+                if (conceptTitle && texts.concept.title) conceptTitle.textContent = texts.concept.title;
+                if (conceptLead && texts.concept.lead) conceptLead.textContent = texts.concept.lead;
+                
+                // Karty konceptu
+                if (texts.concept.cards) {
+                    const card1Title = document.querySelector('[data-text="concept.card1.title"]');
+                    const card1Text = document.querySelector('[data-text="concept.card1.text"]');
+                    const card2Title = document.querySelector('[data-text="concept.card2.title"]');
+                    const card2Text = document.querySelector('[data-text="concept.card2.text"]');
+                    const card3Title = document.querySelector('[data-text="concept.card3.title"]');
+                    const card3Text = document.querySelector('[data-text="concept.card3.text"]');
+                    
+                    if (card1Title && texts.concept.cards[0]?.title) card1Title.textContent = texts.concept.cards[0].title;
+                    if (card1Text && texts.concept.cards[0]?.text) card1Text.textContent = texts.concept.cards[0].text;
+                    if (card2Title && texts.concept.cards[1]?.title) card2Title.textContent = texts.concept.cards[1].title;
+                    if (card2Text && texts.concept.cards[1]?.text) card2Text.textContent = texts.concept.cards[1].text;
+                    if (card3Title && texts.concept.cards[2]?.title) card3Title.textContent = texts.concept.cards[2].title;
+                    if (card3Text && texts.concept.cards[2]?.text) card3Text.textContent = texts.concept.cards[2].text;
+                }
+            }
+            
+            // Categories section
+            if (texts.categories) {
+                const catTitle = document.querySelector('[data-text="categories.title"]');
+                const catSubtitle = document.querySelector('[data-text="categories.subtitle"]');
+                
+                if (catTitle && texts.categories.title) catTitle.textContent = texts.categories.title;
+                if (catSubtitle && texts.categories.subtitle) catSubtitle.textContent = texts.categories.subtitle;
+            }
+            
+            // Story section
+            if (texts.story) {
+                const storyTitle = document.querySelector('[data-text="story.title"]');
+                const storySubtitle = document.querySelector('[data-text="story.subtitle"]');
+                const storyQuote = document.querySelector('[data-text="story.quote"]');
+                const storyAuthor = document.querySelector('[data-text="story.author"]');
+                const storyAuthorSub = document.querySelector('[data-text="story.authorSub"]');
+                
+                if (storyTitle && texts.story.title) storyTitle.textContent = texts.story.title;
+                if (storySubtitle && texts.story.subtitle) storySubtitle.textContent = texts.story.subtitle;
+                if (storyQuote && texts.story.quote) storyQuote.textContent = texts.story.quote;
+                if (storyAuthor && texts.story.author) storyAuthor.textContent = texts.story.author;
+                if (storyAuthorSub && texts.story.authorSub) storyAuthorSub.textContent = texts.story.authorSub;
+            }
+            
+            // CTA section
+            if (texts.cta) {
+                const ctaTitle = document.querySelector('[data-text="cta.title"]');
+                const ctaSubtitle = document.querySelector('[data-text="cta.subtitle"]');
+                const ctaNote = document.querySelector('[data-text="cta.note"]');
+                
+                if (ctaTitle && texts.cta.title) ctaTitle.textContent = texts.cta.title;
+                if (ctaSubtitle && texts.cta.subtitle) ctaSubtitle.textContent = texts.cta.subtitle;
+                if (ctaNote && texts.cta.note) ctaNote.textContent = texts.cta.note;
+            }
+            
+            // Footer
+            if (texts.footer) {
+                const footerTagline = document.querySelector('[data-text="footer.tagline"]');
+                if (footerTagline && texts.footer.tagline) footerTagline.textContent = texts.footer.tagline;
+            }
+        }
+
+        // Smooth reveal on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.concept-card, .category-card, .story-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Init
+        updateCategoryCounts();
+        loadTexts();
+    </script>
+</body>
+</html>

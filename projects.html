@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekty | WineCoding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .projects-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.25rem;
+            border: 2px solid var(--cream-dark);
+            background: var(--white);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--wine-pale);
+            background: var(--wine-pale);
+        }
+
+        .filter-btn.active {
+            background: var(--wine);
+            border-color: var(--wine);
+            color: var(--cream);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .project-preview {
+            height: 180px;
+            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--cream) 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-preview-placeholder {
+            color: var(--wine);
+            opacity: 0.3;
+        }
+
+        .project-preview-placeholder svg {
+            width: 64px;
+            height: 64px;
+        }
+
+        .project-category-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.35rem 0.85rem;
+            background: var(--white);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--wine);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-content h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            color: var(--wine-dark);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .project-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--cream-dark);
+        }
+
+        .project-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .project-author-avatar {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--wine) 0%, var(--wine-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--wine);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .project-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            color: var(--wine);
+            opacity: 0.2;
+        }
+
+        .empty-state h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            color: var(--wine-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-state p {
+            margin-bottom: 2rem;
+        }
+
+        /* Project detail modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 24px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--cream);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--wine-pale);
+        }
+
+        .modal-preview {
+            height: 250px;
+            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--cream) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-content {
+            padding: 2rem;
+        }
+
+        .modal-content h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            color: var(--wine-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-category {
+            display: inline-block;
+            padding: 0.35rem 0.85rem;
+            background: var(--wine-pale);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--wine);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-description {
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-story {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-story-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--wine);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-story p {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .modal-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--cream-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-author-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--wine) 0%, var(--wine-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .modal-author-info h4 {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .modal-author-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-actions .btn-primary {
+            flex: 1;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                max-height: 100vh;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" fill="currentColor" opacity="0.2"/>
+                <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 24V28M12 28H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            WineCoding
+        </a>
+        <div class="nav-links">
+            <a href="projects.html" class="nav-link">Projekty</a>
+            <a href="submit.html" class="nav-cta">Přidej projekt</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 id="pageTitle">Všechny projekty</h1>
+        <p id="pageSubtitle">Objevuj projekty vytvořené pro radost</p>
+    </header>
+
+    <!-- Projects -->
+    <main class="projects-container">
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">Všechny</button>
+            <button class="filter-btn" data-filter="education">Vzdělávání</button>
+            <button class="filter-btn" data-filter="home">Domácnost</button>
+            <button class="filter-btn" data-filter="creative">Kreativita</button>
+            <button class="filter-btn" data-filter="wellbeing">Wellbeing</button>
+            <button class="filter-btn" data-filter="fun">Zábava</button>
+            <button class="filter-btn" data-filter="utility">Utility</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be loaded here -->
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="3"/>
+                    <path d="M50 25C50 25 30 35 30 50C30 61 39 70 50 70C61 70 70 61 70 50C70 35 50 25 50 25Z" stroke="currentColor" stroke-width="3"/>
+                    <path d="M50 70V85M40 85H60" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h3>Zatím tu nic není</h3>
+            <p>V této kategorii zatím nejsou žádné projekty. Buď první!</p>
+            <a href="submit.html" class="btn-primary">Přidat projekt</a>
+        </div>
+    </main>
+
+    <!-- Project Detail Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <div class="modal-preview" id="modalPreview">
+                <div class="project-preview-placeholder">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="8" y="12" width="48" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="24" cy="28" r="6" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 44L20 32L32 44L44 28L56 44" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-content">
+                <h2 id="modalTitle">Název projektu</h2>
+                <span class="modal-category" id="modalCategory">Kategorie</span>
+                <p class="modal-description" id="modalDescription">Popis projektu...</p>
+                
+                <div class="modal-story" id="modalStorySection">
+                    <div class="modal-story-label">Příběh za projektem</div>
+                    <p id="modalStory">Příběh...</p>
+                </div>
+
+                <div class="modal-author">
+                    <div class="modal-author-avatar" id="modalAuthorAvatar">👤</div>
+                    <div class="modal-author-info">
+                        <h4 id="modalAuthorName">Autor</h4>
+                        <p id="modalAuthorDate">Přidáno ...</p>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <a href="#" class="btn-primary" id="modalLink" target="_blank">
+                        Otevřít projekt
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" fill="currentColor" opacity="0.3"/>
+                        <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 24V28M12 28H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    WineCoding
+                </div>
+                <p class="footer-tagline">Code with joy, share with love.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Domů</a>
+                <a href="submit.html">Přidat projekt</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            <p class="footer-copy">© 2026 WineCoding. Made with 🍷, 🤖 and ❤️</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        const categoryNames = {
+            education: 'Vzdělávání',
+            home: 'Domácnost',
+            creative: 'Kreativita',
+            wellbeing: 'Wellbeing',
+            fun: 'Zábava',
+            utility: 'Utility'
+        };
+
+        let currentFilter = 'all';
+
+        // Get category from URL
+        function getCategoryFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('category');
+        }
+
+        // Update page header based on category
+        function updatePageHeader(category) {
+            const titleEl = document.getElementById('pageTitle');
+            const subtitleEl = document.getElementById('pageSubtitle');
+            
+            if (category && categoryNames[category]) {
+                titleEl.textContent = categoryNames[category];
+                subtitleEl.textContent = `Projekty v kategorii ${categoryNames[category].toLowerCase()}`;
+            } else {
+                titleEl.textContent = 'Všechny projekty';
+                subtitleEl.textContent = 'Objevuj projekty vytvořené pro radost';
+            }
+        }
+
+        // Render projects
+        function renderProjects(filter = 'all') {
+            const grid = document.getElementById('projectsGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            let projects = WineCodeData.getApprovedProjects();
+            
+            if (filter !== 'all') {
+                projects = projects.filter(p => p.category === filter);
+            }
+
+            if (projects.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            grid.innerHTML = projects.map(project => `
+                <div class="project-card" onclick="openModal('${project.id}')">
+                    <div class="project-preview">
+                        ${project.image 
+                            ? `<img src="${project.image}" alt="${project.name}">`
+                            : `<div class="project-preview-placeholder">
+                                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="8" y="12" width="48" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="24" cy="28" r="6" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M8 44L20 32L32 44L44 28L56 44" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                               </div>`
+                        }
+                        <span class="project-category-badge">${categoryNames[project.category] || project.category}</span>
+                    </div>
+                    <div class="project-content">
+                        <h3>${project.name}</h3>
+                        <p>${project.description}</p>
+                        <div class="project-footer">
+                            <div class="project-author">
+                                <div class="project-author-avatar">${project.authorName ? project.authorName[0].toUpperCase() : '?'}</div>
+                                <span>${project.authorName || 'Anonym'}</span>
+                            </div>
+                            <span class="project-link">
+                                Otevřít
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open modal
+        function openModal(projectId) {
+            const projects = WineCodeData.getApprovedProjects();
+            const project = projects.find(p => p.id === projectId);
+            
+            if (!project) return;
+
+            document.getElementById('modalTitle').textContent = project.name;
+            document.getElementById('modalCategory').textContent = categoryNames[project.category] || project.category;
+            document.getElementById('modalDescription').textContent = project.description;
+            document.getElementById('modalLink').href = project.url;
+            
+            // Story
+            const storySection = document.getElementById('modalStorySection');
+            if (project.story) {
+                storySection.style.display = 'block';
+                document.getElementById('modalStory').textContent = project.story;
+            } else {
+                storySection.style.display = 'none';
+            }
+
+            // Author
+            document.getElementById('modalAuthorName').textContent = project.authorName || 'Anonymní autor';
+            document.getElementById('modalAuthorAvatar').textContent = project.authorName ? project.authorName[0].toUpperCase() : '?';
+            
+            const date = new Date(project.submittedAt);
+            document.getElementById('modalAuthorDate').textContent = `Přidáno ${date.toLocaleDateString('cs-CZ')}`;
+
+            // Preview
+            const preview = document.getElementById('modalPreview');
+            if (project.image) {
+                preview.innerHTML = `<img src="${project.image}" alt="${project.name}">`;
+            } else {
+                preview.innerHTML = `
+                    <div class="project-preview-placeholder">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="12" width="48" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="24" cy="28" r="6" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 44L20 32L32 44L44 28L56 44" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                `;
+            }
+
+            document.getElementById('projectModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('projectModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('projectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderProjects(currentFilter);
+                
+                // Update URL
+                const url = new URL(window.location);
+                if (currentFilter === 'all') {
+                    url.searchParams.delete('category');
+                } else {
+                    url.searchParams.set('category', currentFilter);
+                }
+                window.history.pushState({}, '', url);
+                updatePageHeader(currentFilter === 'all' ? null : currentFilter);
+            });
+        });
+
+        // Init
+        const urlCategory = getCategoryFromURL();
+        if (urlCategory) {
+            currentFilter = urlCategory;
+            document.querySelector(`[data-filter="${urlCategory}"]`)?.classList.add('active');
+            document.querySelector('[data-filter="all"]')?.classList.remove('active');
+        }
+        updatePageHeader(urlCategory);
+        renderProjects(currentFilter);
+    </script>
+</body>
+</html>
