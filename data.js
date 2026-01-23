@@ -103,19 +103,20 @@ const WineCodeData = {
     adminPassword: "wine2026",
 
     // Výchozí/ukázkové projekty (zobrazí se všem)
-    // UPRAV URL na skutečnou adresu projektu!
+    // Projekty přidané přes formulář se ukládají do localStorage
+    // Sem můžeš ručně přidat projekty, které chceš mít natrvalo
     defaultProjects: [
         {
-            id: "demo1",
+            id: "1769167885674",
             name: "Bezpečná cesta domů",
-            description: "Interaktivní hra pro děti, která je učí bezpečně přecházet silnici a orientovat se ve městě. Vytvořeno pro mou dceru, teď to používá celá její třída.",
+            url: "https://bezpecnedomu.macaly.app",
+            description: "Jednoduchá hra pro děti. Jak se chovat bezpečně při cestě domů. 8 situací, bodování, tipy a závěrečných 5 zlatých pravidel bezpečnosti.",
             category: "education",
-            story: "Jednou večer jsem přemýšlela, jak naučit dceru bezpečně chodit ze školy. Místo nudného vysvětlování jsem vytvořila hru, kde si to může vyzkoušet nanečisto.",
-            url: "bezpecna-cesta-domu.html", // Relativní odkaz na hru
-            authorName: "Hana",
+            story: "Inspirovala mě Jasmína Houdek, když sdílela pravidla bezpečného chování, o kterých bychom měli mluvit s dětmi. Na základě screenshotu z LinkedInu vznikla tahle jednoduchá hra.",
+            authorName: "Anonym",
             status: "approved",
-            submittedAt: "2026-01-15T20:00:00.000Z",
-            image: null // AI vygeneruje
+            submittedAt: "2026-01-23T11:31:25.674Z",
+            image: "https://image.pollinations.ai/prompt/Minimalist%20illustration%20for%20app%20called%20%22Bezpe%C4%8Dn%C3%A1%20cesta%20dom%C5%AF%22.%20Jednoduch%C3%A1%20hra%20pro%20d%C4%9Bti.%20Jak%20se%20chovat%20bezpe%C4%8Dn%C4%9B%20p%C5%99i%20cest%C4%9B%20dom%C5%AF.%208%20situac%C3%AD%2C%20bodov%C3%A1n%C3%AD%2C%20tipy%20a%20z%C3%A1v%C4%9Bre%C4%8Dn%C3%BDch%205%20zlat%C3%BDch%20pravidel%20bezpe%C4%8Dnosti..%20Style%3A%20educational%2C%20learning%2C%20children%2C%20school%2C%20soft%20colors%2C%20clean%20design%2C%20no%20text%2C%20abstract%20friendly%20illustration%2C%20warm%20tones%2C%20wine%20color%20accents?width=600&height=400&seed=1575130492&nologo=true"
         }
     ],
 
