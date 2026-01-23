@@ -102,6 +102,22 @@ const WineCodeData = {
     // Admin heslo (v reálu by bylo na serveru)
     adminPassword: "wine2026",
 
+    // Výchozí/ukázkové projekty (zobrazí se všem)
+    defaultProjects: [
+        {
+            id: "demo1",
+            name: "Bezpečná cesta domů",
+            description: "Interaktivní hra pro děti, která je učí bezpečně přecházet silnici a orientovat se ve městě. Vytvořeno pro mou dceru, teď to používá celá její třída.",
+            category: "education",
+            story: "Jednou večer jsem přemýšlela, jak naučit dceru bezpečně chodit ze školy. Místo nudného vysvětlování jsem vytvořila hru, kde si to může vyzkoušet nanečisto.",
+            url: "https://example.com/bezpecna-cesta",
+            authorName: "Hana",
+            status: "approved",
+            submittedAt: "2026-01-15T20:00:00.000Z",
+            image: null // AI vygeneruje
+        }
+    ],
+
     // Pomocné funkce
     save() {
         localStorage.setItem('winecoding_texts', JSON.stringify(this.texts));
@@ -114,9 +130,29 @@ const WineCodeData = {
         }
     },
 
-    // Projekty
+    // Projekty - kombinuje výchozí projekty s těmi z localStorage
     getProjects() {
-        return JSON.parse(localStorage.getItem('winecoding_projects') || '[]');
+        const localProjects = JSON.parse(localStorage.getItem('winecoding_projects') || '[]');
+        
+        // Přidáme výchozí projekty (s vygenerovanými obrázky)
+        const defaultWithImages = this.defaultProjects.map(p => {
+            if (!p.image) {
+                p.image = this.generateProjectImage(p.name, p.description, p.category);
+            }
+            return p;
+        });
+        
+        // Kombinujeme - lokální projekty mají přednost (pro případ editace)
+        const allProjects = [...defaultWithImages];
+        
+        localProjects.forEach(lp => {
+            // Přidáme jen pokud není v defaultních (podle id)
+            if (!allProjects.find(dp => dp.id === lp.id)) {
+                allProjects.push(lp);
+            }
+        });
+        
+        return allProjects;
     },
 
     saveProject(project) {
