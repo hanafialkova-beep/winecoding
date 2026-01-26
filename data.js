@@ -15,7 +15,7 @@ const WineCodeData = {
         hero: {
             badge: "✨ Nová platforma pro passion projekty",
             title: "Sip. Code. Share.",
-            subtitle: "Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo při skleničce vína a dobré náladě za pomoci vibecodingu."
+            subtitle: "Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo v dobré náladě za pomoci vibecodingu (a třeba při skleničce vína)."
         },
         concept: {
             title: "Vibecoding pro radost",
