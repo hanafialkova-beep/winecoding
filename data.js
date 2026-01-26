@@ -15,16 +15,16 @@ const WineCodeData = {
         hero: {
             badge: "✨ Nová platforma pro passion projekty",
             title: "Sip. Code. Share.",
-            subtitle: "Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo při skleničce vína a dobré náladě."
+            subtitle: "Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo při skleničce vína a dobré náladě za pomoci vibecodingu."
         },
         concept: {
             title: "Vibecoding pro radost",
-            lead: "Ne každý projekt musí vydělávat. Některé vznikají prostě proto, že je to baví. WineCoding je platforma, kde tyto projekty najdou své lidi.",
+            lead: "Ne každý projekt musí vydělávat. Některé vznikají prostě proto, že to tvůrce baví. WineCoding je platforma, kde tyto projekty najdou reálné uživatele.",
             cards: [
                 {
                     icon: "lightbulb",
                     title: "Sdílej své nápady",
-                    text: "Vytvořil/a jsi něco cool při večerním codingu? Nahraj to a podělij se s ostatními. Žádné složité procesy, žádné poplatky."
+                    text: "Vytvořil/a jsi něco cool při večerním codingu? Nahraj to a poděl se s ostatními. Žádné složité procesy, žádné poplatky."
                 },
                 {
                     icon: "search",
@@ -44,15 +44,15 @@ const WineCodeData = {
         },
         story: {
             title: "Příběhy u vína",
-            subtitle: "Každý projekt má svůj příběh",
+            subtitle: "",
             quote: "Jednou večer, když dcera usnula, jsem si nalila skleničku vína a začala přemýšlet, jak jí usnadnit učení matematiky. Do půlnoci jsem měla hotovou první verzi hry s příklady. Teď ji používá celá její třída.",
             author: "Inspirační příběh",
-            authorSub: "Takové příběhy chceme sbírat"
+            authorSub: ""
         },
         cta: {
             title: "Máš projekt, který stojí za sdílení?",
-            subtitle: "Přidej ho na WineCoding a najdi lidi, kterým pomůže. Žádné poplatky, žádné složitosti — jen tvůj projekt a jeho příběh.",
-            note: "Každý projekt projde rychlou kontrolou, abychom udrželi kvalitu."
+            subtitle: "Přidej ho na WineCoding, aby se mohl dostat k lidem, kterým pomůže nebo je pobaví. Žádné poplatky, žádné složitosti — jen tvůj projekt a jeho příběh.",
+            note: ""
         },
         footer: {
             tagline: "Code with joy, share with love."
