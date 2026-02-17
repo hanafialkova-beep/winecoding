@@ -61,50 +61,18 @@ const WineCodeData = {
 
     // Kategorie projektů
     categories: [
-        {
-            id: "education",
-            name: "Vzdělávání",
-            description: "Apky pro děti, učební pomůcky, kvízy",
-            color: "#E8B4B8"
-        },
-        {
-            id: "home",
-            name: "Domácnost",
-            description: "Organizace, rodinný život, plánování",
-            color: "#B8D4E8"
-        },
-        {
-            id: "creative",
-            name: "Kreativita",
-            description: "Generátory, nástroje pro tvůrce",
-            color: "#D4B8E8"
-        },
-        {
-            id: "wellbeing",
-            name: "Wellbeing",
-            description: "Zdraví, mindfulness, habits",
-            color: "#B8E8C4"
-        },
-        {
-            id: "fun",
-            name: "Zábava",
-            description: "Hry, kvízy, fun projekty",
-            color: "#E8D4B8"
-        },
-        {
-            id: "utility",
-            name: "Utility",
-            description: "Pomocné nástroje, kalkulačky",
-            color: "#C4C4C4"
-        }
+        { id: "education", name: "Vzdělávání", description: "Apky pro děti, učební pomůcky, kvízy", color: "#E8B4B8" },
+        { id: "home", name: "Domácnost", description: "Organizace, rodinný život, plánování", color: "#B8D4E8" },
+        { id: "creative", name: "Kreativita", description: "Generátory, nástroje pro tvůrce", color: "#D4B8E8" },
+        { id: "wellbeing", name: "Wellbeing", description: "Zdraví, mindfulness, habits", color: "#B8E8C4" },
+        { id: "fun", name: "Zábava", description: "Hry, kvízy, fun projekty", color: "#E8D4B8" },
+        { id: "utility", name: "Utility", description: "Pomocné nástroje, kalkulačky", color: "#C4C4C4" }
     ],
 
     // Admin heslo (v reálu by bylo na serveru)
     adminPassword: "wine2026",
 
-    // Výchozí/ukázkové projekty (zobrazí se všem)
-    // Projekty přidané přes formulář se ukládají do localStorage
-    // Sem můžeš ručně přidat projekty, které chceš mít natrvalo
+    // Výchozí/ukázkové projekty
     defaultProjects: [
         {
             id: "1769167885674",
@@ -116,7 +84,7 @@ const WineCodeData = {
             authorName: "Anonym",
             status: "approved",
             submittedAt: "2026-01-23T11:31:25.674Z",
-            image: "https://image.pollinations.ai/prompt/Minimalist%20illustration%20for%20app%20called%20%22Bezpe%C4%8Dn%C3%A1%20cesta%20dom%C5%AF%22.%20Jednoduch%C3%A1%20hra%20pro%20d%C4%9Bti.%20Jak%20se%20chovat%20bezpe%C4%8Dn%C4%9B%20p%C5%99i%20cest%C4%9B%20dom%C5%AF.%208%20situac%C3%AD%2C%20bodov%C3%A1n%C3%AD%2C%20tipy%20a%20z%C3%A1v%C4%9Bre%C4%8Dn%C3%BDch%205%20zlat%C3%BDch%20pravidel%20bezpe%C4%8Dnosti..%20Style%3A%20educational%2C%20learning%2C%20children%2C%20school%2C%20soft%20colors%2C%20clean%20design%2C%20no%20text%2C%20abstract%20friendly%20illustration%2C%20warm%20tones%2C%20wine%20color%20accents?width=600&height=400&seed=1575130492&nologo=true"
+            image: "" // will be auto-generated
         }
     ],
 
@@ -150,9 +118,7 @@ const WineCodeData = {
         const defaultNames = defaultWithImages.map(p => p.name.toLowerCase());
         
         localProjects.forEach(lp => {
-            // Přidáme jen pokud nemá stejný název jako defaultní projekt
             if (!defaultNames.includes(lp.name.toLowerCase())) {
-                // Vygeneruj obrázek i pro localStorage projekty, pokud chybí
                 if (!lp.image && lp.name && lp.description && lp.category) {
                     lp.image = this.generateProjectImage(lp.name, lp.description, lp.category);
                 }
@@ -166,7 +132,7 @@ const WineCodeData = {
     saveProject(project) {
         const projects = this.getProjects();
         project.id = Date.now().toString();
-        project.status = 'pending'; // pending, approved, rejected
+        project.status = 'pending';
         project.submittedAt = new Date().toISOString();
         projects.push(project);
         localStorage.setItem('winecoding_projects', JSON.stringify(projects));
@@ -183,14 +149,10 @@ const WineCodeData = {
     },
 
     getApprovedProjects(category = null) {
-        // Získáme všechny projekty včetně defaultních
         let projects = this.getProjects().filter(p => p.status === 'approved');
-        
         if (category) {
             projects = projects.filter(p => p.category === category);
         }
-        
-        console.log('Approved projects:', projects.length, category || 'all');
         return projects;
     },
 
@@ -198,54 +160,60 @@ const WineCodeData = {
         return this.getProjects().filter(p => p.status === 'pending');
     },
 
-    // Generování AI obrázku na základě textu a kategorie pomocí Pollinations.ai
-    generateProjectImage(name, description, category) {
-        // Kategorie v angličtině pro lepší prompt
-        const categoryKeywords = {
-            education: 'educational, learning, children, school',
-            home: 'home, family, cozy, domestic',
-            creative: 'creative, artistic, colorful, design',
-            wellbeing: 'wellness, health, peaceful, nature',
-            fun: 'fun, playful, games, entertainment',
-            utility: 'tools, productivity, technology, helpful'
-        };
-        
-        const categoryStyle = categoryKeywords[category] || 'digital, modern';
-        
-        // Vytvoříme prompt pro AI
-        // Použijeme název a popis projektu + styl kategorie
-        const prompt = `Minimalist illustration for app called "${name}". ${description}. Style: ${categoryStyle}, soft colors, clean design, no text, abstract friendly illustration, warm tones, wine color accents`;
-        
-        // Zakódujeme prompt pro URL
-        const encodedPrompt = encodeURIComponent(prompt);
-        
-        // Pollinations.ai generuje obrázky zdarma přes URL
-        // Přidáme seed pro konzistenci (stejný projekt = stejný obrázek)
-        const seed = this.hashCode(name + description);
-        
-        return `https://image.pollinations.ai/prompt/${encodedPrompt}?width=600&height=400&seed=${seed}&nologo=true`;
+    // Strip diacritics / special chars and translate to English keywords
+    _simplifyText(text) {
+        // Remove diacritics
+        const stripped = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        // Keep only basic ASCII letters, numbers, spaces
+        return stripped.replace(/[^a-zA-Z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
     },
 
-    // Pomocná funkce pro vytvoření hash kódu z textu
+    // Generate AI image using Pollinations.ai (short English prompts only)
+    generateProjectImage(name, description, category) {
+        const categoryStyles = {
+            education: 'education kids learning colorful school',
+            home: 'home family cozy domestic organization',
+            creative: 'creative artistic design colorful paint',
+            wellbeing: 'wellness health nature meditation peaceful',
+            fun: 'fun games playful entertainment bright',
+            utility: 'tools technology productivity digital modern'
+        };
+        
+        const style = categoryStyles[category] || 'digital modern app';
+        
+        // Build SHORT English-only prompt (max ~120 chars to keep URL safe)
+        const cleanName = this._simplifyText(name).substring(0, 30);
+        const cleanDesc = this._simplifyText(description).substring(0, 40);
+        
+        const prompt = `minimalist flat illustration ${cleanName} ${cleanDesc} ${style} soft colors no text abstract`;
+        
+        // URL-encode the clean prompt
+        const encoded = encodeURIComponent(prompt);
+        
+        // Consistent seed from name
+        const seed = this.hashCode(name);
+        
+        return `https://image.pollinations.ai/prompt/${encoded}?width=600&height=400&seed=${seed}&nologo=true`;
+    },
+
+    // Hash string to number
     hashCode(str) {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
             const char = str.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
+            hash = hash & hash;
         }
         return Math.abs(hash);
     },
 
     // Odeslání emailu přes EmailJS
     async sendEmail(type, data) {
-        // Pokud není EmailJS nakonfigurovaný, jen logujeme
         if (!this.emailConfig.serviceId || !this.emailConfig.publicKey) {
             console.log('📧 Email by byl odeslán (EmailJS není nakonfigurovaný):', type, data);
             return { success: false, reason: 'not_configured' };
         }
 
-        // Vyžaduje načtení EmailJS knihovny
         if (typeof emailjs === 'undefined') {
             console.warn('EmailJS knihovna není načtená');
             return { success: false, reason: 'library_not_loaded' };
@@ -271,10 +239,8 @@ const WineCodeData = {
         }
     },
 
-    // Odeslat potvrzovací email při přidání projektu
     async sendSubmitConfirmation(project) {
         if (!project.email) return;
-        
         return this.sendEmail('submit', {
             to_email: project.email,
             to_name: project.authorName || 'Příteli',
@@ -283,10 +249,8 @@ const WineCodeData = {
         });
     },
 
-    // Odeslat email při schválení projektu
     async sendApprovalEmail(project) {
         if (!project.email) return;
-        
         return this.sendEmail('approved', {
             to_email: project.email,
             to_name: project.authorName || 'Příteli',
@@ -300,7 +264,6 @@ const WineCodeData = {
 // Load saved texts and email config on init
 WineCodeData.load();
 
-// Load email config
 const savedEmailConfig = localStorage.getItem('winecoding_email_config');
 if (savedEmailConfig) {
     WineCodeData.emailConfig = JSON.parse(savedEmailConfig);

@@ -4,37 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | WineCoding</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
         .admin-container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 3rem 2rem 6rem;
+            padding: 2rem 2rem 6rem;
         }
 
         /* Login */
         .login-card {
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
-            background: var(--white);
-            border-radius: 24px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
             padding: 2.5rem;
-            box-shadow: var(--shadow-md);
             text-align: center;
+            backdrop-filter: blur(16px);
         }
 
         .login-card h2 {
-            font-family: 'Fraunces', serif;
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 1.5rem;
-            color: var(--wine-dark);
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .login-card > p {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-bottom: 2rem;
         }
 
@@ -43,7 +41,7 @@
         }
 
         .login-error {
-            color: #d32f2f;
+            color: #ff6b6b;
             font-size: 0.9rem;
             margin-bottom: 1rem;
             display: none;
@@ -70,20 +68,22 @@
         }
 
         .admin-header h2 {
-            font-family: 'Fraunces', serif;
-            font-size: 1.75rem;
-            color: var(--wine-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
         }
 
         .admin-logout {
             background: none;
             border: none;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             cursor: pointer;
             font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            transition: color 0.3s;
         }
 
         .admin-logout:hover {
@@ -95,19 +95,19 @@
             display: flex;
             gap: 0.5rem;
             margin-bottom: 2rem;
-            border-bottom: 2px solid var(--cream-dark);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             padding-bottom: 0.5rem;
         }
 
         .admin-tab {
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             background: none;
             border: none;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
             cursor: pointer;
-            color: var(--text-muted);
-            border-radius: 8px 8px 0 0;
+            color: var(--text-secondary);
+            border-radius: 10px 10px 0 0;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -116,19 +116,19 @@
 
         .admin-tab:hover {
             color: var(--wine);
-            background: var(--wine-pale);
+            background: rgba(138,43,62,0.1);
         }
 
         .admin-tab.active {
             color: var(--wine);
-            background: var(--wine-pale);
+            background: rgba(138,43,62,0.15);
             font-weight: 600;
         }
 
         .admin-tab .badge {
             background: var(--wine);
             color: white;
-            padding: 0.15rem 0.5rem;
+            padding: 0.15rem 0.55rem;
             border-radius: 10px;
             font-size: 0.75rem;
             font-weight: 600;
@@ -144,13 +144,13 @@
 
         /* Projects Tab */
         .projects-section {
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .projects-section-title {
-            font-family: 'Fraunces', serif;
-            font-size: 1.25rem;
-            color: var(--wine-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            color: var(--text-primary);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
@@ -158,21 +158,26 @@
         }
 
         .admin-project-card {
-            background: var(--white);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            box-shadow: var(--shadow-sm);
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 1.5rem;
             align-items: start;
+            transition: border-color 0.3s;
+        }
+
+        .admin-project-card:hover {
+            border-color: rgba(138,43,62,0.3);
         }
 
         .admin-project-info h3 {
-            font-family: 'Fraunces', serif;
-            font-size: 1.15rem;
-            color: var(--wine-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
             margin-bottom: 0.35rem;
         }
 
@@ -180,7 +185,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
             margin-bottom: 0.75rem;
         }
@@ -192,25 +197,26 @@
         }
 
         .admin-project-description {
-            color: var(--text-dark);
+            color: var(--text-secondary);
             font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 0.75rem;
         }
 
         .admin-project-story {
-            background: var(--cream);
+            background: rgba(138,43,62,0.08);
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             font-style: italic;
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-bottom: 0.75rem;
+            border-left: 3px solid var(--wine);
         }
 
         .admin-project-url {
             font-size: 0.85rem;
-            color: var(--wine);
+            color: var(--wine-light);
             word-break: break-all;
         }
 
@@ -223,9 +229,9 @@
         .admin-btn {
             padding: 0.6rem 1.25rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.85rem;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -235,48 +241,53 @@
         }
 
         .admin-btn-approve {
-            background: #4caf50;
+            background: #22c55e;
             color: white;
         }
 
         .admin-btn-approve:hover {
-            background: #43a047;
+            background: #16a34a;
+            transform: translateY(-1px);
         }
 
         .admin-btn-reject {
-            background: #f44336;
+            background: #ef4444;
             color: white;
         }
 
         .admin-btn-reject:hover {
-            background: #e53935;
+            background: #dc2626;
+            transform: translateY(-1px);
         }
 
         .admin-btn-view {
-            background: var(--cream);
-            color: var(--text-dark);
+            background: rgba(255,255,255,0.06);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .admin-btn-view:hover {
-            background: var(--cream-dark);
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
         }
 
         .admin-btn-delete {
             background: none;
-            color: #f44336;
-            border: 1px solid #f44336;
+            color: #ef4444;
+            border: 1px solid rgba(239,68,68,0.3);
         }
 
         .admin-btn-delete:hover {
-            background: #ffebee;
+            background: rgba(239,68,68,0.1);
         }
 
         .empty-section {
             text-align: center;
             padding: 3rem;
             color: var(--text-muted);
-            background: var(--white);
+            background: rgba(255,255,255,0.02);
             border-radius: 16px;
+            border: 1px dashed rgba(255,255,255,0.08);
         }
 
         .empty-section svg {
@@ -288,20 +299,20 @@
 
         /* Texts Tab */
         .text-editor-section {
-            background: var(--white);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-sm);
         }
 
         .text-editor-title {
-            font-family: 'Fraunces', serif;
-            font-size: 1.15rem;
-            color: var(--wine-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid var(--cream-dark);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
 
         .text-field {
@@ -310,21 +321,31 @@
 
         .text-field label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 500;
             color: var(--text-muted);
             margin-bottom: 0.5rem;
+        }
+
+        .text-field small {
+            display: block;
+            margin-top: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
         }
 
         .text-field input,
         .text-field textarea {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 2px solid var(--cream-dark);
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
             transition: all 0.3s ease;
+            background: rgba(255,255,255,0.04);
+            color: var(--text-primary);
+            box-sizing: border-box;
         }
 
         .text-field textarea {
@@ -336,6 +357,7 @@
         .text-field textarea:focus {
             outline: none;
             border-color: var(--wine);
+            background: rgba(138,43,62,0.06);
         }
 
         .save-texts-btn {
@@ -346,7 +368,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: #4caf50;
+            color: #22c55e;
             font-size: 0.9rem;
             margin-left: 1rem;
             opacity: 0;
@@ -355,6 +377,42 @@
 
         .save-feedback.show {
             opacity: 1;
+        }
+
+        .email-template-box {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .email-template-box strong {
+            color: var(--wine-light);
+        }
+
+        .email-template-box pre {
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            white-space: pre-wrap;
+        }
+
+        .email-list-box {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .section-heading-small {
+            margin: 1.5rem 0 1rem;
+            color: var(--wine-light);
+            font-size: 0.95rem;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -377,10 +435,10 @@
     <div class="bg-pattern"></div>
 
     <!-- Navigation -->
-    <nav>
+    <nav id="mainNav">
         <a href="index.html" class="logo">
             <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" fill="currentColor" opacity="0.2"/>
+                <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" fill="currentColor" opacity="0.3"/>
                 <path d="M16 4C16 4 8 8 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 8 16 4 16 4Z" stroke="currentColor" stroke-width="2"/>
                 <path d="M16 24V28M12 28H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
@@ -484,7 +542,6 @@
 
             <!-- Texts Tab -->
             <div class="tab-content" id="tab-texts">
-                <!-- Hero Section -->
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">Hero sekce (úvodní)</h3>
                     <div class="text-field">
@@ -497,54 +554,52 @@
                     </div>
                     <div class="text-field">
                         <label>Popisek</label>
-                        <textarea id="text-hero-subtitle">Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo při skleničce vína a dobré náladě.</textarea>
+                        <textarea id="text-hero-subtitle">Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk.</textarea>
                     </div>
                 </div>
 
-                <!-- Concept Section -->
                 <div class="text-editor-section">
-                    <h3 class="text-editor-title">Koncept sekce (vínová)</h3>
+                    <h3 class="text-editor-title">Koncept sekce</h3>
                     <div class="text-field">
                         <label>Nadpis</label>
                         <input type="text" id="text-concept-title" value="Vibecoding pro radost">
                     </div>
                     <div class="text-field">
                         <label>Úvodní text</label>
-                        <textarea id="text-concept-lead">Ne každý projekt musí vydělávat. Některé vznikají prostě proto, že je to baví. WineCoding je platforma, kde tyto projekty najdou své lidi.</textarea>
+                        <textarea id="text-concept-lead">Ne každý projekt musí vydělávat. Některé vznikají prostě proto, že je to baví.</textarea>
                     </div>
                     
-                    <h4 style="margin: 1.5rem 0 1rem; color: var(--wine);">Karta 1: Sdílej své nápady</h4>
+                    <h4 class="section-heading-small">Karta 1: Sdílej své nápady</h4>
                     <div class="text-field">
                         <label>Nadpis karty</label>
                         <input type="text" id="text-concept-card1-title" value="Sdílej své nápady">
                     </div>
                     <div class="text-field">
                         <label>Text karty</label>
-                        <textarea id="text-concept-card1-text">Vytvořil/a jsi něco cool při večerním codingu? Nahraj to a podělij se s ostatními. Žádné složité procesy, žádné poplatky.</textarea>
+                        <textarea id="text-concept-card1-text">Vytvořil/a jsi něco cool při večerním codingu? Nahraj to a podělij se s ostatními.</textarea>
                     </div>
                     
-                    <h4 style="margin: 1.5rem 0 1rem; color: var(--wine);">Karta 2: Objevuj poklady</h4>
+                    <h4 class="section-heading-small">Karta 2: Objevuj poklady</h4>
                     <div class="text-field">
                         <label>Nadpis karty</label>
                         <input type="text" id="text-concept-card2-title" value="Objevuj poklady">
                     </div>
                     <div class="text-field">
                         <label>Text karty</label>
-                        <textarea id="text-concept-card2-text">Najdi vzdělávací hry pro děti, produktivní nástroje, kreativní apky — věci, které by jinak zůstaly schované na něčím GitHubu.</textarea>
+                        <textarea id="text-concept-card2-text">Najdi vzdělávací hry pro děti, produktivní nástroje, kreativní apky.</textarea>
                     </div>
                     
-                    <h4 style="margin: 1.5rem 0 1rem; color: var(--wine);">Karta 3: Příběhy za kódem</h4>
+                    <h4 class="section-heading-small">Karta 3: Příběhy za kódem</h4>
                     <div class="text-field">
                         <label>Nadpis karty</label>
                         <input type="text" id="text-concept-card3-title" value="Příběhy za kódem">
                     </div>
                     <div class="text-field">
                         <label>Text karty</label>
-                        <textarea id="text-concept-card3-text">Každý projekt má svůj příběh. Proč vznikl? Co autora inspirovalo? Tady nejde jen o kód, ale o lidi za ním.</textarea>
+                        <textarea id="text-concept-card3-text">Každý projekt má svůj příběh. Proč vznikl? Co autora inspirovalo?</textarea>
                     </div>
                 </div>
 
-                <!-- Categories Section -->
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">Sekce kategorií</h3>
                     <div class="text-field">
@@ -553,11 +608,10 @@
                     </div>
                     <div class="text-field">
                         <label>Podnapis</label>
-                        <input type="text" id="text-categories-subtitle" value="Projekty všech barev a chutí — jako dobře vybavený wine bar">
+                        <input type="text" id="text-categories-subtitle" value="Projekty všech barev a chutí">
                     </div>
                 </div>
 
-                <!-- Story Section -->
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">Sekce příběhu</h3>
                     <div class="text-field">
@@ -570,7 +624,7 @@
                     </div>
                     <div class="text-field">
                         <label>Citát/příběh</label>
-                        <textarea id="text-story-quote">Jednou večer, když dcera usnula, jsem si nalila skleničku vína a začala přemýšlet, jak jí usnadnit učení matematiky. Do půlnoci jsem měla hotovou první verzi hry s příklady. Teď ji používá celá její třída.</textarea>
+                        <textarea id="text-story-quote">Jednou večer, když dcera usnula, jsem si nalila skleničku vína a začala přemýšlet...</textarea>
                     </div>
                     <div class="text-field">
                         <label>Autor</label>
@@ -582,7 +636,6 @@
                     </div>
                 </div>
 
-                <!-- CTA Section -->
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">CTA sekce (výzva k akci)</h3>
                     <div class="text-field">
@@ -591,7 +644,7 @@
                     </div>
                     <div class="text-field">
                         <label>Text</label>
-                        <textarea id="text-cta-subtitle">Přidej ho na WineCoding a najdi lidi, kterým pomůže. Žádné poplatky, žádné složitosti — jen tvůj projekt a jeho příběh.</textarea>
+                        <textarea id="text-cta-subtitle">Přidej ho na WineCoding a najdi lidi, kterým pomůže.</textarea>
                     </div>
                 </div>
 
@@ -615,9 +668,9 @@
             <div class="tab-content" id="tab-emails">
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">📧 Nastavení EmailJS</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6;">
-                        Pro odesílání emailů použij službu <a href="https://www.emailjs.com/" target="_blank" style="color: var(--wine);">EmailJS</a> (zdarma do 200 emailů/měsíc).<br><br>
-                        <strong>Jak na to:</strong><br>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.7;">
+                        Pro odesílání emailů použij službu <a href="https://www.emailjs.com/" target="_blank" style="color: var(--wine-light);">EmailJS</a> (zdarma do 200 emailů/měsíc).<br><br>
+                        <strong style="color: var(--text-primary);">Jak na to:</strong><br>
                         1. Zaregistruj se na emailjs.com<br>
                         2. Přidej Email Service (např. Gmail)<br>
                         3. Vytvoř 2 šablony (pro potvrzení a schválení)<br>
@@ -658,14 +711,13 @@
 
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">📋 Šablony pro EmailJS</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.6;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6;">
                         V EmailJS vytvoř šablony s těmito proměnnými:
                     </p>
                     
-                    <div style="background: var(--cream); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                        <strong style="color: var(--wine);">Šablona: Potvrzení odeslání</strong>
-                        <pre style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
-To: {{to_email}}
+                    <div class="email-template-box">
+                        <strong>Šablona: Potvrzení odeslání</strong>
+                        <pre>To: {{to_email}}
 Subject: Díky za přidání projektu na WineCoding!
 
 Ahoj {{to_name}},
@@ -676,10 +728,9 @@ S pozdravem,
 WineCoding tým 🍷</pre>
                     </div>
 
-                    <div style="background: var(--cream); padding: 1rem; border-radius: 8px;">
-                        <strong style="color: var(--wine);">Šablona: Schválení projektu</strong>
-                        <pre style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
-To: {{to_email}}
+                    <div class="email-template-box">
+                        <strong>Šablona: Schválení projektu</strong>
+                        <pre>To: {{to_email}}
 Subject: Tvůj projekt {{project_name}} je živý!
 
 Ahoj {{to_name}},
@@ -695,10 +746,10 @@ WineCoding tým 🍷</pre>
 
                 <div class="text-editor-section">
                     <h3 class="text-editor-title">📬 Seznam emailů z projektů</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
                         Emaily od autorů projektů (pro případné kontaktování):
                     </p>
-                    <div id="emailList" style="background: var(--cream); padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem;">
+                    <div class="email-list-box" id="emailList">
                         Načítám...
                     </div>
                 </div>
@@ -723,6 +774,8 @@ WineCoding tým 🍷</pre>
             <div class="footer-links">
                 <a href="index.html">Domů</a>
                 <a href="projects.html">Projekty</a>
+                <a href="submit.html">Přidej projekt</a>
+                <a href="admin.html">Admin</a>
             </div>
             <p class="footer-copy">© 2026 WineCoding. Made with 🍷, 🤖 and ❤️</p>
         </div>
@@ -740,6 +793,12 @@ WineCoding tým 🍷</pre>
             fun: 'Zábava',
             utility: 'Utility'
         };
+
+        // Nav scroll
+        const mainNav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            mainNav.classList.toggle('scrolled', window.scrollY > 40);
+        });
 
         // Check if logged in
         function checkAuth() {
@@ -774,7 +833,6 @@ WineCoding tým 🍷</pre>
             loadEmailConfig();
             loadEmailList();
             
-            // Automaticky vygeneruj chybějící obrázky
             const generated = generateMissingImages();
             if (generated > 0) {
                 alert(`✅ Automaticky vygenerováno ${generated} obrázků pro projekty`);
@@ -799,7 +857,6 @@ WineCoding tým 🍷</pre>
 
             document.getElementById('pendingCount').textContent = pending.length;
 
-            // Pending
             const pendingContainer = document.getElementById('pendingProjects');
             if (pending.length === 0) {
                 pendingContainer.innerHTML = `
@@ -815,7 +872,6 @@ WineCoding tým 🍷</pre>
                 pendingContainer.innerHTML = pending.map(project => renderProjectCard(project, true)).join('');
             }
 
-            // Approved
             const approvedContainer = document.getElementById('approvedProjects');
             if (approved.length === 0) {
                 approvedContainer.innerHTML = `
@@ -915,14 +971,11 @@ WineCoding tým 🍷</pre>
 
         // Approve project
         async function approveProject(id) {
-            // Najdi projekt pro email
             const projects = WineCodeData.getProjects();
             const project = projects.find(p => p.id === id);
             
-            // Aktualizuj status
             WineCodeData.updateProject(id, { status: 'approved' });
             
-            // Odešli email autorovi (pokud má email)
             if (project && project.email) {
                 const result = await WineCodeData.sendApprovalEmail(project);
                 if (result.success) {
@@ -963,7 +1016,6 @@ WineCoding tým 🍷</pre>
             document.getElementById('text-concept-title').value = texts.concept?.title || '';
             document.getElementById('text-concept-lead').value = texts.concept?.lead || '';
             
-            // Karty konceptu
             if (texts.concept?.cards) {
                 document.getElementById('text-concept-card1-title').value = texts.concept.cards[0]?.title || '';
                 document.getElementById('text-concept-card1-text').value = texts.concept.cards[0]?.text || '';
@@ -1035,7 +1087,6 @@ WineCoding tým 🍷</pre>
             
             WineCodeData.save();
             
-            // Show feedback
             const feedback = document.getElementById('saveFeedback');
             feedback.classList.add('show');
             setTimeout(() => feedback.classList.remove('show'), 2000);
@@ -1050,7 +1101,6 @@ WineCoding tým 🍷</pre>
             document.getElementById('email-templateApproved').value = config.templateIdApproved || '';
             document.getElementById('email-publicKey').value = config.publicKey || '';
             
-            // Aktualizuj WineCodeData
             if (config.serviceId) {
                 WineCodeData.emailConfig = config;
             }
@@ -1068,7 +1118,6 @@ WineCoding tým 🍷</pre>
             localStorage.setItem('winecoding_email_config', JSON.stringify(config));
             WineCodeData.emailConfig = config;
             
-            // Show feedback
             const feedback = document.getElementById('emailSaveFeedback');
             feedback.classList.add('show');
             setTimeout(() => feedback.classList.remove('show'), 2000);
@@ -1091,17 +1140,15 @@ WineCoding tým 🍷</pre>
             const project = projects.find(p => p.id === id);
             
             if (project) {
-                // Vygeneruj nový AI obrázek
                 project.image = WineCodeData.generateProjectImage(
                     project.name,
                     project.description,
                     project.category
                 );
                 
-                // Ulož
                 localStorage.setItem('winecoding_projects', JSON.stringify(projects));
                 
-                alert('🎨 Nový AI obrázek se generuje! Může to trvat pár sekund. Refreshni stránku projektů pro zobrazení.');
+                alert('🎨 Nový AI obrázek se generuje! Může to trvat pár sekund.');
                 loadProjects();
             }
         }
@@ -1125,7 +1172,7 @@ WineCoding tým 🍷</pre>
             if (updated > 0) {
                 localStorage.setItem('winecoding_projects', JSON.stringify(projects));
                 console.log(`✅ Vygenerováno ${updated} obrázků pro projekty`);
-                loadProjects(); // Refresh zobrazení
+                loadProjects();
             }
             
             return updated;
@@ -1134,11 +1181,6 @@ WineCoding tým 🍷</pre>
         // Init
         if (checkAuth()) {
             showAdminPanel();
-            // Automaticky vygeneruj chybějící obrázky
-            const generated = generateMissingImages();
-            if (generated > 0) {
-                console.log(`Automaticky vygenerováno ${generated} obrázků`);
-            }
         }
     </script>
 </body>
