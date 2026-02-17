@@ -152,6 +152,10 @@ const WineCodeData = {
         localProjects.forEach(lp => {
             // Přidáme jen pokud nemá stejný název jako defaultní projekt
             if (!defaultNames.includes(lp.name.toLowerCase())) {
+                // Vygeneruj obrázek i pro localStorage projekty, pokud chybí
+                if (!lp.image && lp.name && lp.description && lp.category) {
+                    lp.image = this.generateProjectImage(lp.name, lp.description, lp.category);
+                }
                 allProjects.push(lp);
             }
         });

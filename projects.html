@@ -31,19 +31,22 @@
             font-size: 0.9rem;
             font-family: 'DM Sans', sans-serif;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
             color: var(--text-dark);
         }
 
         .filter-btn:hover {
             border-color: var(--wine-pale);
             background: var(--wine-pale);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(114, 47, 55, 0.1);
         }
 
         .filter-btn.active {
             background: var(--wine);
             border-color: var(--wine);
             color: var(--cream);
+            box-shadow: 0 4px 16px rgba(114, 47, 55, 0.25);
         }
 
         .projects-grid {
@@ -57,16 +60,28 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardAppear 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation-delay: calc(var(--card-index, 0) * 0.08s);
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(114, 47, 55, 0.15);
         }
 
         .project-preview {
@@ -83,6 +98,29 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Shimmer loading placeholder */
+        .img-shimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                110deg,
+                var(--cream-dark) 8%,
+                var(--cream) 18%,
+                var(--cream-dark) 33%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: -200% 0; }
         }
 
         .project-preview-placeholder {
@@ -210,16 +248,23 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(8px);
             z-index: 1000;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .modal-overlay.active {
             display: flex;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         .modal {
@@ -230,6 +275,15 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            transform: translateY(30px) scale(0.97);
+            animation: modalSlideIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.1s forwards;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes modalSlideIn {
+            to {
+                transform: translateY(0) scale(1);
+            }
         }
 
         .modal-close {
@@ -548,11 +602,18 @@
 
             emptyState.style.display = 'none';
             
-            grid.innerHTML = projects.map(project => `
-                <div class="project-card" onclick="openModal('${project.id}')">
+            grid.innerHTML = projects.map((project, index) => `
+                <div class="project-card" onclick="openModal('${project.id}')" style="--card-index: ${index}">
                     <div class="project-preview">
                         ${project.image 
-                            ? `<img src="${project.image}" alt="${project.name}">`
+                            ? `<div class="img-shimmer"></div><img src="${project.image}" alt="${project.name}" onload="this.previousElementSibling.style.display='none'; this.style.opacity=1;" onerror="this.previousElementSibling.style.display='none'; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                               <div class="project-preview-placeholder" style="display:none;">
+                                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="8" y="12" width="48" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="24" cy="28" r="6" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M8 44L20 32L32 44L44 28L56 44" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                               </div>`
                             : `<div class="project-preview-placeholder">
                                 <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="8" y="12" width="48" height="40" rx="4" stroke="currentColor" stroke-width="2"/>
@@ -614,7 +675,7 @@
             // Preview
             const preview = document.getElementById('modalPreview');
             if (project.image) {
-                preview.innerHTML = `<img src="${project.image}" alt="${project.name}">`;
+                preview.innerHTML = `<div class="img-shimmer"></div><img src="${project.image}" alt="${project.name}" style="opacity:0;transition:opacity 0.4s ease" onload="this.previousElementSibling.style.display='none'; this.style.opacity=1;" onerror="this.previousElementSibling.style.display='none'; this.style.display='none';">`;
             } else {
                 preview.innerHTML = `
                     <div class="project-preview-placeholder">
@@ -680,6 +741,12 @@
         }
         updatePageHeader(urlCategory);
         renderProjects(currentFilter);
+
+        // Glassmorphism nav — shrink on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
     </script>
 </body>
 </html>

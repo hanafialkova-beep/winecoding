@@ -20,6 +20,13 @@
             border-radius: 24px;
             padding: 2.5rem;
             box-shadow: var(--shadow-md);
+            border: 1px solid transparent;
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .submit-card:hover {
+            box-shadow: 0 12px 50px rgba(114, 47, 55, 0.1);
+            border-color: rgba(114, 47, 55, 0.04);
         }
 
         .submit-intro {
@@ -99,17 +106,20 @@
             border: 2px solid var(--cream-dark);
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
             text-align: center;
         }
 
         .category-option input:checked + label {
             border-color: var(--wine);
             background: var(--wine-pale);
+            transform: scale(1.03);
+            box-shadow: 0 4px 16px rgba(114, 47, 55, 0.12);
         }
 
         .category-option label:hover {
             border-color: var(--wine-light);
+            transform: translateY(-2px);
         }
 
         .category-option-icon {
@@ -474,6 +484,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="data.js"></script>
     <script>
+        // Glassmorphism nav — shrink on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
         document.getElementById('submitForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
