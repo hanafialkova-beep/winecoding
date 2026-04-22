@@ -110,10 +110,15 @@
 
         let activeFilter = 'all';
 
-        // Placeholder SVG
+        // Placeholder for broken images
         function getPlaceholderSVG(category) {
             const emoji = categoryEmoji[category] || '🍷';
             return `<div class="placeholder-img">${emoji}</div>`;
+        }
+
+        // Called from onerror on img tags
+        function handleImgError(img, category) {
+            img.parentElement.innerHTML = getPlaceholderSVG(category);
         }
 
         // Render projects
