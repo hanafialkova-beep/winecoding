@@ -142,7 +142,7 @@
 
             grid.innerHTML = projects.map(project => {
                 const imgSrc = project.image || '';
-                const hasImage = imgSrc && imgSrc.startsWith('http');
+                const hasImage = imgSrc && (imgSrc.startsWith('http') || imgSrc.startsWith('data:'));
 
                 return `
                 <div class="project-card" onclick="openModal('${project.id}')">

@@ -100,6 +100,11 @@ const WineCodeData = {
         }
     },
 
+    // Obrázek je potřeba (pře)generovat, pokud chybí nebo jde o starý Pollinations odkaz
+    _needsImage(image) {
+        return !image || image.includes('pollinations');
+    },
+
     // Projekty - kombinuje výchozí projekty s těmi z localStorage
     getProjects() {
         const localProjects = JSON.parse(localStorage.getItem('winecoding_projects') || '[]');
@@ -107,7 +112,7 @@ const WineCodeData = {
         // Přidáme výchozí projekty (s vygenerovanými obrázky)
         const defaultWithImages = this.defaultProjects.map(p => {
             const project = { ...p };
-            if (!project.image) {
+            if (this._needsImage(project.image)) {
                 project.image = this.generateProjectImage(project.name, project.description, project.category);
             }
             return project;
@@ -119,7 +124,7 @@ const WineCodeData = {
         
         localProjects.forEach(lp => {
             if (!defaultNames.includes(lp.name.toLowerCase())) {
-                if (!lp.image && lp.name && lp.description && lp.category) {
+                if (this._needsImage(lp.image) && lp.name && lp.category) {
                     lp.image = this.generateProjectImage(lp.name, lp.description, lp.category);
                 }
                 allProjects.push(lp);
@@ -160,40 +165,38 @@ const WineCodeData = {
         return this.getProjects().filter(p => p.status === 'pending');
     },
 
-    // Strip diacritics / special chars and translate to English keywords
-    _simplifyText(text) {
-        // Remove diacritics
-        const stripped = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        // Keep only basic ASCII letters, numbers, spaces
-        return stripped.replace(/[^a-zA-Z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+    // Vizuální styl náhledu podle kategorie (ladí s feel-good theme)
+    categoryVisuals: {
+        education: { emoji: '📚', colors: ['#ffe0c7', '#fbd0dc'] },
+        home:      { emoji: '🏠', colors: ['#cfe9d8', '#e4def5'] },
+        creative:  { emoji: '🎨', colors: ['#e4def5', '#fbd0dc'] },
+        wellbeing: { emoji: '🧘', colors: ['#cfe9d8', '#ffe0c7'] },
+        fun:       { emoji: '🎮', colors: ['#fbd0dc', '#ffe0c7'] },
+        utility:   { emoji: '🔧', colors: ['#e4def5', '#cfe9d8'] }
     },
 
-    // Generate AI image using Pollinations.ai (short English prompts only)
+    // Vygeneruje okamžitý náhledový obrázek podle tématu (SVG data URI, bez sítě)
     generateProjectImage(name, description, category) {
-        const categoryStyles = {
-            education: 'education kids learning colorful school',
-            home: 'home family cozy domestic organization',
-            creative: 'creative artistic design colorful paint',
-            wellbeing: 'wellness health nature meditation peaceful',
-            fun: 'fun games playful entertainment bright',
-            utility: 'tools technology productivity digital modern'
-        };
-        
-        const style = categoryStyles[category] || 'digital modern app';
-        
-        // Build SHORT English-only prompt (max ~120 chars to keep URL safe)
-        const cleanName = this._simplifyText(name).substring(0, 30);
-        const cleanDesc = this._simplifyText(description).substring(0, 40);
-        
-        const prompt = `minimalist flat illustration ${cleanName} ${cleanDesc} ${style} soft colors no text abstract`;
-        
-        // URL-encode the clean prompt
-        const encoded = encodeURIComponent(prompt);
-        
-        // Consistent seed from name
-        const seed = this.hashCode(name);
-        
-        return `https://image.pollinations.ai/prompt/${encoded}?width=600&height=400&seed=${seed}&nologo=true`;
+        const visual = this.categoryVisuals[category] || { emoji: '🍷', colors: ['#ffe0c7', '#e4def5'] };
+        const [c1, c2] = visual.colors;
+
+        // Úhel gradientu odvozený od názvu → každý projekt vypadá trochu jinak
+        const angle = this.hashCode(name) % 360;
+
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="g" gradientTransform="rotate(${angle} 0.5 0.5)">
+      <stop offset="0%" stop-color="${c1}"/>
+      <stop offset="100%" stop-color="${c2}"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#g)"/>
+  <circle cx="490" cy="90" r="120" fill="#ffffff" opacity="0.18"/>
+  <circle cx="110" cy="330" r="90" fill="#ffffff" opacity="0.14"/>
+  <text x="300" y="225" font-size="150" text-anchor="middle" dominant-baseline="middle">${visual.emoji}</text>
+</svg>`;
+
+        return 'data:image/svg+xml,' + encodeURIComponent(svg);
     },
 
     // Hash string to number

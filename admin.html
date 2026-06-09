@@ -1151,7 +1151,6 @@ WineCoding tým 🍷</pre>
                 
                 localStorage.setItem('winecoding_projects', JSON.stringify(projects));
                 
-                alert('🎨 Nový AI obrázek se generuje! Může to trvat pár sekund.');
                 loadProjects();
             }
         }
@@ -1162,7 +1161,7 @@ WineCoding tým 🍷</pre>
             let updated = 0;
             
             projects.forEach(project => {
-                if (!project.image) {
+                if (WineCodeData._needsImage(project.image)) {
                     project.image = WineCodeData.generateProjectImage(
                         project.name,
                         project.description,
