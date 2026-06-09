@@ -84,7 +84,7 @@ const WineCodeData = {
             authorName: "Anonym",
             status: "approved",
             submittedAt: "2026-01-23T11:31:25.674Z",
-            image: "" // will be auto-generated
+            image: "assets/project-bezpecna-cesta.png"
         }
     ],
 
@@ -175,10 +175,41 @@ const WineCodeData = {
         utility:   { emoji: '🔧', colors: ['#e4def5', '#cfe9d8'] }
     },
 
+    // Mapa klíčových slov → emoji (pro relevantnější náhled podle obsahu projektu)
+    keywordEmojis: [
+        { emoji: '🚦', words: ['bezpeč', 'cesta', 'silnic', 'doprav', 'přechod', 'safety', 'traffic', 'road'] },
+        { emoji: '🧒', words: ['dět', 'dít', 'kids', 'child', 'school', 'škol'] },
+        { emoji: '🔢', words: ['matemat', 'počít', 'čísl', 'math', 'number', 'kalkul'] },
+        { emoji: '🎵', words: ['hudb', 'music', 'píseň', 'song', 'zvuk'] },
+        { emoji: '🍳', words: ['recept', 'vař', 'jídl', 'kuch', 'food', 'cook', 'recipe'] },
+        { emoji: '💪', words: ['fitness', 'cvič', 'sport', 'trén', 'workout', 'běh'] },
+        { emoji: '🧘', words: ['medit', 'mindful', 'klid', 'dech', 'relax', 'wellbeing'] },
+        { emoji: '🌱', words: ['zahrad', 'rostlin', 'garden', 'plant', 'kytk'] },
+        { emoji: '💰', words: ['peníz', 'financ', 'rozpoč', 'money', 'budget', 'úspor'] },
+        { emoji: '📖', words: ['knih', 'čten', 'book', 'read', 'příběh', 'story'] },
+        { emoji: '🗺️', words: ['cestov', 'mapa', 'travel', 'výlet', 'map'] },
+        { emoji: '🐾', words: ['zvíř', 'animal', 'pes', 'kočk', 'pet', 'mazlíč'] },
+        { emoji: '✅', words: ['úkol', 'todo', 'seznam', 'task', 'plán', 'organiz', 'checklist'] },
+        { emoji: '🎨', words: ['kresl', 'malov', 'art', 'draw', 'design', 'paint'] },
+        { emoji: '🗣️', words: ['jazyk', 'slovíčk', 'language', 'angličt', 'překlad', 'vocab'] },
+        { emoji: '🎮', words: ['hra', 'game', 'kvíz', 'quiz', 'puzzle'] },
+        { emoji: '🌤️', words: ['počasí', 'weather', 'teplot'] }
+    ],
+
+    // Vybere nejvhodnější emoji podle obsahu, jinak emoji kategorie
+    _pickEmoji(name, description, category) {
+        const text = ((name || '') + ' ' + (description || '')).toLowerCase();
+        for (const entry of this.keywordEmojis) {
+            if (entry.words.some(w => text.includes(w))) return entry.emoji;
+        }
+        return (this.categoryVisuals[category] || {}).emoji || '🍷';
+    },
+
     // Vygeneruje okamžitý náhledový obrázek podle tématu (SVG data URI, bez sítě)
     generateProjectImage(name, description, category) {
         const visual = this.categoryVisuals[category] || { emoji: '🍷', colors: ['#ffe0c7', '#e4def5'] };
         const [c1, c2] = visual.colors;
+        const emoji = this._pickEmoji(name, description, category);
 
         // Úhel gradientu odvozený od názvu → každý projekt vypadá trochu jinak
         const angle = this.hashCode(name) % 360;
@@ -193,7 +224,7 @@ const WineCodeData = {
   <rect width="600" height="400" fill="url(#g)"/>
   <circle cx="490" cy="90" r="120" fill="#ffffff" opacity="0.18"/>
   <circle cx="110" cy="330" r="90" fill="#ffffff" opacity="0.14"/>
-  <text x="300" y="225" font-size="150" text-anchor="middle" dominant-baseline="middle">${visual.emoji}</text>
+  <text x="300" y="225" font-size="150" text-anchor="middle" dominant-baseline="middle">${emoji}</text>
 </svg>`;
 
         return 'data:image/svg+xml,' + encodeURIComponent(svg);

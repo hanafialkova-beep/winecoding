@@ -142,17 +142,18 @@
 
             grid.innerHTML = projects.map(project => {
                 const imgSrc = project.image || '';
-                const hasImage = imgSrc && (imgSrc.startsWith('http') || imgSrc.startsWith('data:'));
+                const hasImage = !!imgSrc;
+                const safeName = (project.name || '').replace(/"/g, '&quot;');
 
                 return `
                 <div class="project-card" onclick="openModal('${project.id}')">
                     <div class="project-preview">
                         ${hasImage
                             ? `<div class="shimmer"></div>
-                               <img src="${imgSrc}" alt="${project.name}"
+                               <img src="${imgSrc}" alt="${safeName}"
                                     loading="lazy"
                                     onload="this.style.opacity=1;this.previousElementSibling.remove()"
-                                    onerror="this.parentElement.innerHTML='${getPlaceholderSVG(project.category).replace(/'/g, "\\'")}'"
+                                    onerror="handleImgError(this, '${project.category}')"
                                     style="opacity:0;transition:opacity 0.4s ease">`
                             : getPlaceholderSVG(project.category)
                         }
