@@ -637,6 +637,91 @@ section {
     color: var(--text-muted);
 }
 
+/* ---------- About / autorka ---------- */
+.about-section { padding: 5rem 2rem; }
+
+.about-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.about-photo {
+    position: relative;
+}
+
+.about-photo::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    background: var(--gradient-soft);
+    border-radius: var(--radius-xl);
+    filter: blur(24px);
+    opacity: 0.7;
+    z-index: 0;
+}
+
+.about-photo img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 16px 36px rgba(157,36,73,0.18);
+}
+
+.about-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--wine-pale);
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--wine);
+    margin-bottom: 1rem;
+}
+
+.about-text h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.about-text p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+}
+
+.about-sign {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--wine);
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .about-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
+        text-align: center;
+    }
+    .about-photo { max-width: 260px; margin: 0 auto; }
+}
+
 /* ---------- CTA Section ---------- */
 .cta-section {
     padding: 5rem 2rem;
