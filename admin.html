@@ -918,16 +918,18 @@ WineCoding tým 🍷</pre>
         // Render project card
         function renderProjectCard(project, isPending) {
             const date = new Date(project.submittedAt);
+            const esc = WineCodeData.escapeHtml.bind(WineCodeData);
+            const safeU = esc(WineCodeData.safeUrl(project.url));
             return `
                 <div class="admin-project-card">
                     <div class="admin-project-info">
-                        <h3>${project.name}</h3>
+                        <h3>${esc(project.name)}</h3>
                         <div class="admin-project-meta">
                             <span>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="3" y="3" width="7" height="7"/>
                                 </svg>
-                                ${categoryNames[project.category] || project.category}
+                                ${esc(categoryNames[project.category] || project.category)}
                             </span>
                             <span>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -941,19 +943,19 @@ WineCoding tým 🍷</pre>
                                     <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
                                     <circle cx="12" cy="7" r="4"/>
                                 </svg>
-                                ${project.authorName}
+                                ${esc(project.authorName)}
                             </span>` : ''}
                             ${project.email ? `<span>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                                     <polyline points="22,6 12,13 2,6"/>
                                 </svg>
-                                ${project.email}
+                                ${esc(project.email)}
                             </span>` : ''}
                         </div>
-                        <p class="admin-project-description">${project.description}</p>
-                        ${project.story ? `<div class="admin-project-story">"${project.story}"</div>` : ''}
-                        <a href="${project.url}" target="_blank" class="admin-project-url">${project.url}</a>
+                        <p class="admin-project-description">${esc(project.description)}</p>
+                        ${project.story ? `<div class="admin-project-story">"${esc(project.story)}"</div>` : ''}
+                        <a href="${safeU}" target="_blank" rel="noopener" class="admin-project-url">${safeU}</a>
                     </div>
                     <div class="admin-project-actions">
                         ${isPending ? `
@@ -977,7 +979,7 @@ WineCoding tým 🍷</pre>
                                 Smazat
                             </button>
                         `}
-                        <a href="${project.url}" target="_blank" class="admin-btn admin-btn-view">
+                        <a href="${safeU}" target="_blank" rel="noopener" class="admin-btn admin-btn-view">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
                             </svg>

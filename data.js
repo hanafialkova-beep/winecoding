@@ -102,6 +102,27 @@ const WineCodeData = {
         return !image || image.includes('pollinations');
     },
 
+    // Escapování textu před vložením do HTML (ochrana proti XSS)
+    escapeHtml(str) {
+        return String(str == null ? '' : str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    },
+
+    // Povolí jen http(s) URL (blokuje javascript:, data: apod.)
+    safeUrl(url) {
+        const s = String(url == null ? '' : url).trim();
+        return /^https?:\/\//i.test(s) ? s : '#';
+    },
+
+    // Platná kategorie z povolené množiny, jinak prázdný řetězec
+    safeCategory(cat) {
+        return this.categories.some(c => c.id === cat) ? cat : '';
+    },
+
     // Projekty - kombinuje výchozí projekty s těmi z localStorage
     getProjects() {
         const localProjects = JSON.parse(localStorage.getItem('winecoding_projects') || '[]');
