@@ -88,6 +88,12 @@
                     <input type="text" id="websiteUrl" name="website" tabindex="-1" autocomplete="off">
                 </div>
 
+                <!-- Inline chybová hláška (místo alert) -->
+                <div id="formError" class="form-error" style="display:none;" role="alert">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                    <span id="formErrorText"></span>
+                </div>
+
                 <button type="submit" class="btn-primary" style="width:100%; justify-content:center;" id="submitBtn">
                     Odeslat projekt
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -143,6 +149,18 @@
             mainNav.classList.toggle('scrolled', window.scrollY > 40);
         });
 
+        // Inline chybová hláška
+        function showFormError(text) {
+            document.getElementById('formErrorText').textContent = text;
+            const box = document.getElementById('formError');
+            box.style.display = 'flex';
+            box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function hideFormError() {
+            document.getElementById('formError').style.display = 'none';
+        }
+
         // Anti-spam: čas otevření formuláře (bot odešle za pár ms, člověk ne)
         const formOpenedAt = Date.now();
 
@@ -181,6 +199,8 @@
                 project.category
             );
 
+            hideFormError();
+
             // Save do databáze
             try {
                 if (!window.WineDB || !window.WineDB.configured) {
@@ -189,7 +209,7 @@
                 await window.WineDB.submitProject(project);
             } catch (err) {
                 console.error('Uložení projektu selhalo:', err);
-                alert('Jejda, projekt se teď nepodařilo odeslat. Zkus to prosím za chvíli.');
+                showFormError('Jejda, projekt se teď nepodařilo odeslat. Zkus to prosím za chvíli.');
                 btn.disabled = false;
                 btn.innerHTML = 'Odeslat projekt';
                 return;
