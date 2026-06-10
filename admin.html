@@ -464,12 +464,15 @@
         <!-- Login -->
         <div class="login-card" id="loginCard">
             <h2>🔐 Přihlášení</h2>
-            <p>Pro přístup do admin panelu zadej heslo</p>
+            <p>Pro přístup do admin panelu se přihlas</p>
             <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="emailInput" placeholder="Email" autocomplete="username" value="hana.fialkova@ef1.cz">
+                </div>
                 <div class="form-group">
                     <input type="password" id="passwordInput" placeholder="Heslo" autocomplete="current-password">
                 </div>
-                <p class="login-error" id="loginError">Nesprávné heslo</p>
+                <p class="login-error" id="loginError">Nesprávný email nebo heslo</p>
                 <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
                     Přihlásit se
                 </button>
@@ -786,7 +789,9 @@ WineCoding tým 🍷</pre>
 
     <!-- EmailJS library -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="config.js"></script>
     <script src="data.js"></script>
+    <script type="module" src="db.js"></script>
     <script>
         const categoryNames = {
             education: 'Vzdělávání',
@@ -803,27 +808,39 @@ WineCoding tým 🍷</pre>
             mainNav.classList.toggle('scrolled', window.scrollY > 40);
         });
 
-        // Check if logged in
-        function checkAuth() {
-            return sessionStorage.getItem('winecoding_admin') === 'true';
+        // Počká na inicializaci databázové vrstvy
+        function whenDB(cb) {
+            if (window.WineDB) cb();
+            else window.addEventListener('winedb-ready', cb, { once: true });
         }
 
-        // Login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Login (Supabase Auth)
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
             const password = document.getElementById('passwordInput').value;
-            
-            if (password === WineCodeData.adminPassword) {
-                sessionStorage.setItem('winecoding_admin', 'true');
+            const errorEl = document.getElementById('loginError');
+            errorEl.classList.remove('show');
+
+            if (!window.WineDB || !window.WineDB.configured) {
+                errorEl.textContent = 'Databáze není dostupná';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            try {
+                await window.WineDB.login(email, password);
                 showAdminPanel();
-            } else {
-                document.getElementById('loginError').classList.add('show');
+            } catch (err) {
+                console.error('Přihlášení selhalo:', err);
+                errorEl.textContent = 'Nesprávný email nebo heslo';
+                errorEl.classList.add('show');
             }
         });
 
         // Logout
-        function logout() {
-            sessionStorage.removeItem('winecoding_admin');
+        async function logout() {
+            if (window.WineDB) await window.WineDB.logout();
             location.reload();
         }
 
@@ -834,12 +851,6 @@ WineCoding tým 🍷</pre>
             loadProjects();
             loadTexts();
             loadEmailConfig();
-            loadEmailList();
-            
-            const generated = generateMissingImages();
-            if (generated > 0) {
-                alert(`✅ Automaticky vygenerováno ${generated} obrázků pro projekty`);
-            }
         }
 
         // Tab switching
@@ -853,10 +864,20 @@ WineCoding tým 🍷</pre>
             });
         });
 
+        // Cache projektů načtených z databáze (pro vyhledání podle id)
+        let adminProjects = [];
+
         // Load projects
-        function loadProjects() {
-            const pending = WineCodeData.getPendingProjects();
-            const approved = WineCodeData.getApprovedProjects();
+        async function loadProjects() {
+            try {
+                adminProjects = await window.WineDB.getAllProjects();
+            } catch (e) {
+                console.error('Načtení projektů selhalo:', e);
+                alert('Načtení projektů z databáze selhalo. Zkus obnovit stránku.');
+                return;
+            }
+            const pending = adminProjects.filter(p => p.status === 'pending');
+            const approved = adminProjects.filter(p => p.status === 'approved');
 
             document.getElementById('pendingCount').textContent = pending.length;
 
@@ -890,6 +911,8 @@ WineCoding tým 🍷</pre>
             } else {
                 approvedContainer.innerHTML = approved.map(project => renderProjectCard(project, false)).join('');
             }
+
+            loadEmailList();
         }
 
         // Render project card
@@ -974,11 +997,16 @@ WineCoding tým 🍷</pre>
 
         // Approve project
         async function approveProject(id) {
-            const projects = WineCodeData.getProjects();
-            const project = projects.find(p => p.id === id);
-            
-            WineCodeData.updateProject(id, { status: 'approved' });
-            
+            const project = adminProjects.find(p => p.id === id);
+
+            try {
+                await window.WineDB.updateStatus(id, 'approved');
+            } catch (e) {
+                console.error('Schválení selhalo:', e);
+                alert('Schválení selhalo. Zkus to prosím znovu.');
+                return;
+            }
+
             if (project && project.email) {
                 const result = await WineCodeData.sendApprovalEmail(project);
                 if (result.success) {
@@ -987,25 +1015,34 @@ WineCoding tým 🍷</pre>
                     console.log('Email nebyl odeslán - EmailJS není nakonfigurovaný');
                 }
             }
-            
+
             loadProjects();
         }
 
         // Reject project
-        function rejectProject(id) {
-            if (confirm('Opravdu chceš tento projekt zamítnout?')) {
-                WineCodeData.updateProject(id, { status: 'rejected' });
-                loadProjects();
+        async function rejectProject(id) {
+            if (!confirm('Opravdu chceš tento projekt zamítnout?')) return;
+            try {
+                await window.WineDB.updateStatus(id, 'rejected');
+            } catch (e) {
+                console.error('Zamítnutí selhalo:', e);
+                alert('Zamítnutí selhalo. Zkus to prosím znovu.');
+                return;
             }
+            loadProjects();
         }
 
         // Delete project
-        function deleteProject(id) {
-            if (confirm('Opravdu chceš tento projekt smazat? Tato akce je nevratná.')) {
-                const projects = WineCodeData.getProjects().filter(p => p.id !== id);
-                localStorage.setItem('winecoding_projects', JSON.stringify(projects));
-                loadProjects();
+        async function deleteProject(id) {
+            if (!confirm('Opravdu chceš tento projekt smazat? Tato akce je nevratná.')) return;
+            try {
+                await window.WineDB.deleteProject(id);
+            } catch (e) {
+                console.error('Smazání selhalo:', e);
+                alert('Smazání selhalo. Zkus to prosím znovu.');
+                return;
             }
+            loadProjects();
         }
 
         // Load texts
@@ -1128,62 +1165,41 @@ WineCoding tým 🍷</pre>
 
         // Load email list from projects
         function loadEmailList() {
-            const projects = WineCodeData.getProjects();
-            const emails = projects
+            const emails = adminProjects
                 .filter(p => p.email)
                 .map(p => `${p.email} (${p.authorName || 'anonym'} - ${p.name})`)
                 .join('\n');
-            
+
             document.getElementById('emailList').textContent = emails || 'Zatím žádné emaily';
         }
 
-        // Regenerovat obrázek pro konkrétní projekt
-        function regenerateImage(id) {
-            const projects = WineCodeData.getProjects();
-            const project = projects.find(p => p.id === id);
-            
-            if (project) {
-                project.image = WineCodeData.generateProjectImage(
-                    project.name,
-                    project.description,
-                    project.category
-                );
-                
-                localStorage.setItem('winecoding_projects', JSON.stringify(projects));
-                
-                loadProjects();
+        // Regenerovat náhledový obrázek pro konkrétní projekt
+        async function regenerateImage(id) {
+            const project = adminProjects.find(p => p.id === id);
+            if (!project) return;
+
+            const image = WineCodeData.generateProjectImage(
+                project.name,
+                project.description,
+                project.category
+            );
+
+            try {
+                await window.WineDB.updateImage(id, image);
+            } catch (e) {
+                console.error('Změna obrázku selhala:', e);
+                alert('Změna obrázku selhala. Zkus to prosím znovu.');
+                return;
             }
+            loadProjects();
         }
 
-        // Vygenerovat obrázky ke všem projektům, které ho nemají
-        function generateMissingImages() {
-            const projects = WineCodeData.getProjects();
-            let updated = 0;
-            
-            projects.forEach(project => {
-                if (WineCodeData._needsImage(project.image)) {
-                    project.image = WineCodeData.generateProjectImage(
-                        project.name,
-                        project.description,
-                        project.category
-                    );
-                    updated++;
-                }
-            });
-            
-            if (updated > 0) {
-                localStorage.setItem('winecoding_projects', JSON.stringify(projects));
-                console.log(`✅ Vygenerováno ${updated} obrázků pro projekty`);
-                loadProjects();
+        // Init – pokud je admin přihlášený, rovnou ukaž panel
+        whenDB(async function() {
+            if (window.WineDB && window.WineDB.configured && await window.WineDB.isLoggedIn()) {
+                showAdminPanel();
             }
-            
-            return updated;
-        }
-
-        // Init
-        if (checkAuth()) {
-            showAdminPanel();
-        }
+        });
     </script>
 </body>
 </html>

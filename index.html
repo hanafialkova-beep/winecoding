@@ -206,7 +206,9 @@
         </div>
     </footer>
 
+    <script src="config.js"></script>
     <script src="data.js"></script>
+    <script type="module" src="db.js"></script>
     <script>
         // Load dynamic texts
         (function() {
@@ -247,15 +249,22 @@
             }
         })();
 
-        // Update category counts
-        (function() {
-            const projects = WineCodeData.getApprovedProjects();
+        // Update category counts (z databáze)
+        function whenDB(cb) {
+            if (window.WineDB) cb();
+            else window.addEventListener('winedb-ready', cb, { once: true });
+        }
+        whenDB(async function() {
+            if (!window.WineDB || !window.WineDB.configured) return;
+            let projects = [];
+            try { projects = await window.WineDB.getApprovedProjects(); }
+            catch (e) { console.error('Načtení projektů selhalo:', e); return; }
             document.querySelectorAll('.category-count').forEach(el => {
                 const cat = el.dataset.category;
                 const count = projects.filter(p => p.category === cat).length;
                 el.textContent = count + ' projekt' + (count === 1 ? '' : count < 5 && count > 0 ? 'y' : 'ů');
             });
-        })();
+        });
 
         // Nav scroll effect
         const mainNav = document.getElementById('mainNav');

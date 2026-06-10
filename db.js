@@ -70,12 +70,10 @@ const WineDB = {
             status: 'pending',
             image: p.image || null
         };
-        const { data, error } = await supabase.from('projects')
-            .insert(row)
-            .select()
-            .single();
+        // Bez .select() — anon nemá právo číst 'pending' řádky (RLS),
+        // takže vracení reprezentace by selhalo. Stačí potvrzení bez chyby.
+        const { error } = await supabase.from('projects').insert(row);
         if (error) throw error;
-        return mapRow(data);
     },
 
     async updateStatus(id, status) {

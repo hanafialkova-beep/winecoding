@@ -69,9 +69,6 @@ const WineCodeData = {
         { id: "utility", name: "Utility", description: "Pomocné nástroje, kalkulačky", color: "#C4C4C4" }
     ],
 
-    // Admin heslo (v reálu by bylo na serveru)
-    adminPassword: "wine2026",
-
     // Výchozí/ukázkové projekty
     defaultProjects: [
         {

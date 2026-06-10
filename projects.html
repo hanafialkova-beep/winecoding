@@ -88,7 +88,9 @@
         </div>
     </footer>
 
+    <script src="config.js"></script>
     <script src="data.js"></script>
+    <script type="module" src="db.js"></script>
     <script>
         const categoryNames = {
             education: 'Vzdělávání',
@@ -109,6 +111,7 @@
         };
 
         let activeFilter = 'all';
+        let loadedProjects = [];
 
         // Placeholder for broken images
         function getPlaceholderSVG(category) {
@@ -123,10 +126,9 @@
 
         // Render projects
         function renderProjects() {
-            const allProjects = WineCodeData.getApprovedProjects();
             const projects = activeFilter === 'all'
-                ? allProjects
-                : allProjects.filter(p => p.category === activeFilter);
+                ? loadedProjects
+                : loadedProjects.filter(p => p.category === activeFilter);
 
             const grid = document.getElementById('projectsGrid');
             const empty = document.getElementById('emptyState');
@@ -179,8 +181,7 @@
 
         // Modal
         function openModal(id) {
-            const projects = WineCodeData.getApprovedProjects();
-            const project = projects.find(p => p.id === id);
+            const project = loadedProjects.find(p => p.id === id);
             if (!project) return;
 
             const modal = document.getElementById('projectModal');
@@ -252,8 +253,29 @@
             mainNav.classList.toggle('scrolled', window.scrollY > 40);
         });
 
-        // Init
-        renderProjects();
+        // Načtení projektů z databáze
+        function whenDB(cb) {
+            if (window.WineDB) cb();
+            else window.addEventListener('winedb-ready', cb, { once: true });
+        }
+
+        whenDB(async function() {
+            const empty = document.getElementById('emptyState');
+            if (!window.WineDB || !window.WineDB.configured) {
+                document.getElementById('projectsGrid').style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+            try {
+                loadedProjects = await window.WineDB.getApprovedProjects();
+                renderProjects();
+            } catch (e) {
+                console.error('Načtení projektů selhalo:', e);
+                document.getElementById('projectsGrid').style.display = 'none';
+                empty.innerHTML = '<p style="font-size:3rem; margin-bottom:1rem;">🍷</p><p style="color:var(--text-secondary); font-size:1.1rem;">Projekty se teď nepodařilo načíst. Zkus to prosím za chvíli.</p>';
+                empty.style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>

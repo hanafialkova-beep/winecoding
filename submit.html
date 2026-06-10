@@ -126,7 +126,9 @@
 
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="config.js"></script>
     <script src="data.js"></script>
+    <script type="module" src="db.js"></script>
     <script>
         // Nav scroll
         const mainNav = document.getElementById('mainNav');
@@ -159,12 +161,24 @@
                 project.category
             );
 
-            // Save
-            WineCodeData.saveProject(project);
+            // Save do databáze
+            try {
+                if (!window.WineDB || !window.WineDB.configured) {
+                    throw new Error('Databáze není dostupná');
+                }
+                await window.WineDB.submitProject(project);
+            } catch (err) {
+                console.error('Uložení projektu selhalo:', err);
+                alert('Jejda, projekt se teď nepodařilo odeslat. Zkus to prosím za chvíli.');
+                btn.disabled = false;
+                btn.innerHTML = 'Odeslat projekt';
+                return;
+            }
 
-            // Send confirmation email
+            // Send confirmation email (nepovinné)
             if (project.email) {
-                await WineCodeData.sendSubmitConfirmation(project);
+                try { await WineCodeData.sendSubmitConfirmation(project); }
+                catch (e) { console.warn('Email se nepodařilo odeslat:', e); }
             }
 
             // Show success

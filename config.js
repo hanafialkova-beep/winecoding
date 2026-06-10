@@ -6,6 +6,6 @@
 // Dokud jsou hodnoty prázdné, web jede ve "fallback" režimu (localStorage).
 
 window.SUPABASE_CONFIG = {
-    url: '',       // např. 'https://abcdxyz.supabase.co'
-    anonKey: ''    // dlouhý 'eyJ...' řetězec (anon / publishable key)
+    url: 'https://isjkapucawmsarjjlech.supabase.co',
+    anonKey: 'sb_publishable_Y-PhWeEQ9NkloasmgHDOLA_BNMIZ5VO'
 };
