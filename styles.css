@@ -710,6 +710,27 @@ section {
     font-style: italic;
     color: var(--wine);
     font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+}
+
+.about-linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: var(--wine-pale);
+    color: var(--wine);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.about-linkedin:hover {
+    background: var(--wine);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(157,36,73,0.25);
 }
 
 @media (max-width: 768px) {
