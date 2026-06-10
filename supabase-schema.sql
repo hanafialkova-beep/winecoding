@@ -25,21 +25,33 @@ create index if not exists projects_status_idx on public.projects (status);
 -- 2) Row Level Security ----------------------------------------------
 alter table public.projects enable row level security;
 
--- Veřejnost (anon) vidí POUZE schválené projekty
+-- Pomocná funkce: je aktuálně přihlášený uživatel admin?
+-- Admin = konkrétní e-mail v JWT tokenu. Tím je admin omezen na JEDEN účet,
+-- i kdyby si někdo přes veřejný anon klíč založil další (role authenticated).
+-- Pokud změníš admin e-mail, uprav ho jen tady na jednom místě.
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+as $$
+    select coalesce(auth.jwt() ->> 'email', '') = 'hana.fialkova@ef1.cz';
+$$;
+
+-- Kdokoliv (anon i přihlášený) vidí POUZE schválené projekty
 drop policy if exists "public can read approved" on public.projects;
 create policy "public can read approved"
     on public.projects
     for select
-    to anon
+    to anon, authenticated
     using (status = 'approved');
 
--- Přihlášený admin vidí všechny projekty (i pending/rejected)
+-- Admin vidí všechny projekty (i pending/rejected)
 drop policy if exists "admin can read all" on public.projects;
 create policy "admin can read all"
     on public.projects
     for select
     to authenticated
-    using (true);
+    using (public.is_admin());
 
 -- Kdokoliv může přidat projekt, ale POUZE jako 'pending'
 -- (nikdo zvenčí si nemůže rovnou schválit vlastní projekt)
@@ -50,22 +62,22 @@ create policy "anyone can submit pending"
     to anon, authenticated
     with check (status = 'pending');
 
--- Měnit (schválit/zamítnout) může jen přihlášený admin
+-- Měnit (schválit/zamítnout) může jen admin
 drop policy if exists "admin can update" on public.projects;
 create policy "admin can update"
     on public.projects
     for update
     to authenticated
-    using (true)
-    with check (true);
+    using (public.is_admin())
+    with check (public.is_admin());
 
--- Mazat může jen přihlášený admin
+-- Mazat může jen admin
 drop policy if exists "admin can delete" on public.projects;
 create policy "admin can delete"
     on public.projects
     for delete
     to authenticated
-    using (true);
+    using (public.is_admin());
 
 -- 3) Ukázkový (první) projekt ----------------------------------------
 insert into public.projects (name, url, description, category, story, author_name, status, image)
