@@ -81,6 +81,13 @@
                     <input type="email" id="authorEmail" placeholder="email@example.com (nepovinný — dáme vědět o schválení)">
                 </div>
 
+                <!-- Honeypot: skryté pole jako past na spam boty. Lidé ho nevidí
+                     a nevyplní, boti formulářová pole vyplňují automaticky. -->
+                <div class="hp-field" aria-hidden="true">
+                    <label for="websiteUrl">Nevyplňujte toto pole</label>
+                    <input type="text" id="websiteUrl" name="website" tabindex="-1" autocomplete="off">
+                </div>
+
                 <button type="submit" class="btn-primary" style="width:100%; justify-content:center;" id="submitBtn">
                     Odeslat projekt
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -136,9 +143,22 @@
             mainNav.classList.toggle('scrolled', window.scrollY > 40);
         });
 
+        // Anti-spam: čas otevření formuláře (bot odešle za pár ms, člověk ne)
+        const formOpenedAt = Date.now();
+
         // Form submit
         document.getElementById('submitForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            // Anti-spam kontrola: vyplněný honeypot nebo odeslání do 4 s
+            // → tiše předstíráme úspěch a nic neukládáme
+            const honeypotFilled = document.getElementById('websiteUrl').value.trim() !== '';
+            const tooFast = Date.now() - formOpenedAt < 4000;
+            if (honeypotFilled || tooFast) {
+                document.getElementById('submitForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                return;
+            }
 
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
