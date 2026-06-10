@@ -22,6 +22,41 @@ create table if not exists public.projects (
 -- Rychlejší filtrování galerie podle stavu
 create index if not exists projects_status_idx on public.projects (status);
 
+-- Délkové limity + povolené kategorie (tvrdá pojistka na úrovni DB —
+-- formulář má maxlength, ale ten jde obejít přímým voláním API)
+alter table public.projects drop constraint if exists projects_name_len;
+alter table public.projects add constraint projects_name_len
+    check (char_length(name) between 1 and 80);
+
+alter table public.projects drop constraint if exists projects_url_len;
+alter table public.projects add constraint projects_url_len
+    check (char_length(url) between 1 and 300);
+
+alter table public.projects drop constraint if exists projects_description_len;
+alter table public.projects add constraint projects_description_len
+    check (char_length(description) between 1 and 600);
+
+alter table public.projects drop constraint if exists projects_story_len;
+alter table public.projects add constraint projects_story_len
+    check (story is null or char_length(story) <= 1500);
+
+alter table public.projects drop constraint if exists projects_author_len;
+alter table public.projects add constraint projects_author_len
+    check (author_name is null or char_length(author_name) <= 60);
+
+alter table public.projects drop constraint if exists projects_email_len;
+alter table public.projects add constraint projects_email_len
+    check (email is null or char_length(email) <= 120);
+
+alter table public.projects drop constraint if exists projects_category_allowed;
+alter table public.projects add constraint projects_category_allowed
+    check (category in ('education', 'home', 'creative', 'wellbeing', 'fun', 'utility'));
+
+-- Obrázek je malé SVG data URI (~1 kB) nebo cesta k assetu; 10 kB bohatě stačí
+alter table public.projects drop constraint if exists projects_image_len;
+alter table public.projects add constraint projects_image_len
+    check (image is null or char_length(image) <= 10000);
+
 -- 2) Row Level Security ----------------------------------------------
 alter table public.projects enable row level security;
 

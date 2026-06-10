@@ -40,17 +40,17 @@
             <form id="submitForm">
                 <div class="form-group">
                     <label for="projectName">Název projektu *</label>
-                    <input type="text" id="projectName" placeholder="např. MathKids — hravá matematika" required>
+                    <input type="text" id="projectName" placeholder="např. MathKids — hravá matematika" maxlength="80" required>
                 </div>
 
                 <div class="form-group">
                     <label for="projectUrl">URL projektu *</label>
-                    <input type="url" id="projectUrl" placeholder="https://mujprojekt.cz" required>
+                    <input type="url" id="projectUrl" placeholder="https://mujprojekt.cz" maxlength="300" required>
                 </div>
 
                 <div class="form-group">
                     <label for="projectDescription">Popis *</label>
-                    <textarea id="projectDescription" placeholder="Co tvůj projekt dělá? Pro koho je?" required></textarea>
+                    <textarea id="projectDescription" placeholder="Co tvůj projekt dělá? Pro koho je?" maxlength="600" required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -68,17 +68,17 @@
 
                 <div class="form-group">
                     <label for="projectStory">Příběh za projektem</label>
-                    <textarea id="projectStory" placeholder="Jak a proč projekt vznikl? Co tě inspirovalo? (nepovinné)"></textarea>
+                    <textarea id="projectStory" placeholder="Jak a proč projekt vznikl? Co tě inspirovalo? (nepovinné)" maxlength="1500"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="authorName">Tvoje jméno</label>
-                    <input type="text" id="authorName" placeholder="Jméno nebo přezdívka (nepovinné)">
+                    <input type="text" id="authorName" placeholder="Jméno nebo přezdívka (nepovinné)" maxlength="60">
                 </div>
 
                 <div class="form-group">
                     <label for="authorEmail">Email</label>
-                    <input type="email" id="authorEmail" placeholder="email@example.com (nepovinný — dáme vědět o schválení)">
+                    <input type="email" id="authorEmail" placeholder="email@example.com (nepovinný — dáme vědět o schválení)" maxlength="120">
                 </div>
 
                 <!-- Honeypot: skryté pole jako past na spam boty. Lidé ho nevidí
