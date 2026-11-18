@@ -109,6 +109,7 @@
     <script src="config.js"></script>
     <script src="data.js"></script>
     <script type="module" src="db.js"></script>
+    <script src="covers.js"></script>
     <script src="ui.js"></script>
     <script>
         const categoryNames = {
@@ -178,23 +179,12 @@
             const esc = WineCodeData.escapeHtml.bind(WineCodeData);
 
             grid.innerHTML = projects.map(project => {
-                const imgSrc = esc(project.image || '');
-                const hasImage = !!project.image;
-                const cat = WineCodeData.safeCategory(project.category);
                 const catLabel = esc(categoryNames[project.category] || project.category);
 
                 return `
                 <div class="project-card" onclick="openModal('${esc(project.id)}')">
                     <div class="project-preview">
-                        ${hasImage
-                            ? `<div class="shimmer"></div>
-                               <img src="${imgSrc}" alt="${esc(project.name)}"
-                                    loading="lazy"
-                                    onload="this.style.opacity=1;this.previousElementSibling.remove()"
-                                    onerror="handleImgError(this, '${cat}')"
-                                    style="opacity:0;transition:opacity 0.4s ease">`
-                            : getPlaceholderSVG(project.category)
-                        }
+                        ${WineCovers.render(project)}
                     </div>
                     <div class="project-info">
                         <span class="project-category-badge">${categoryEmoji[project.category] || ''} ${catLabel}</span>
@@ -226,7 +216,9 @@
             const catLabel = esc(categoryNames[project.category] || project.category);
 
             content.innerHTML = `
-                <button class="modal-close" onclick="closeModal()">✕</button>
+                <button class="modal-close" onclick="closeModal()" aria-label="Zavřít">✕</button>
+                <div style="clear:both"></div>
+                <div class="modal-cover">${WineCovers.render(project, { large: true })}</div>
                 <div style="margin-bottom:1.5rem;">
                     <span class="project-category-badge">${categoryEmoji[project.category] || ''} ${catLabel}</span>
                 </div>
@@ -234,7 +226,7 @@
                 <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:1.5rem;">${esc(project.description)}</p>
                 ${project.story ? `
                     <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:1.25rem;margin-bottom:1.5rem;">
-                        <p style="font-style:italic;color:var(--text-secondary);line-height:1.7;">"${esc(project.story)}"</p>
+                        <p style="font-family:var(--font-serif);font-style:italic;font-size:1.3rem;color:var(--text-secondary);line-height:1.45;">„${esc(project.story)}“</p>
                     </div>
                 ` : ''}
                 ${project.authorName ? `
