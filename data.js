@@ -15,7 +15,7 @@ const WineCodeData = {
         hero: {
             badge: "✨ Nová platforma pro passion projekty",
             title: "Sip. Code. Share.",
-            subtitle: "Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti — cokoliv, co vzniklo v dobré náladě za pomoci vibecodingu (a třeba při skleničce vína)."
+            subtitle: "Místo, kde se sdílí projekty vytvořené z radosti, ne pro zisk. Vzdělávací apky, pomocné nástroje, hry pro děti. Cokoliv, co vzniklo v dobré náladě za pomoci vibecodingu (a třeba při skleničce vína)."
         },
         concept: {
             title: "Vibecoding pro radost",
@@ -29,7 +29,7 @@ const WineCodeData = {
                 {
                     icon: "search",
                     title: "Objevuj poklady",
-                    text: "Najdi vzdělávací hry pro děti, produktivní nástroje, kreativní apky — věci, které by jinak zůstaly schované na něčím GitHubu."
+                    text: "Najdi vzdělávací hry pro děti, produktivní nástroje, kreativní apky. Věci, které by jinak zůstaly schované na něčím GitHubu."
                 },
                 {
                     icon: "heart",
@@ -40,7 +40,7 @@ const WineCodeData = {
         },
         categories: {
             title: "Co tu najdeš?",
-            subtitle: "Projekty všech barev a chutí — jako dobře vybavený wine bar"
+            subtitle: "Projekty všech barev a chutí, jako dobře vybavený wine bar"
         },
         story: {
             title: "Příběhy u vína",
@@ -51,7 +51,7 @@ const WineCodeData = {
         },
         cta: {
             title: "Máš projekt, který stojí za sdílení?",
-            subtitle: "Přidej ho na WineCoding, aby se mohl dostat k lidem, kterým pomůže nebo je pobaví. Žádné poplatky, žádné složitosti — jen tvůj projekt a jeho příběh.",
+            subtitle: "Přidej ho na WineCoding, aby se mohl dostat k lidem, kterým pomůže nebo je pobaví. Žádné poplatky, žádné složitosti. Jen tvůj projekt a jeho příběh.",
             note: ""
         },
         footer: {
@@ -74,7 +74,7 @@ const WineCodeData = {
         {
             id: "1769167885674",
             name: "Bezpečná cesta domů",
-            url: "https://bezpecnedomu.macaly.app",
+            url: "https://bezpecna-cesta-domu.vercel.app",
             description: "Jednoduchá hra pro děti. Jak se chovat bezpečně při cestě domů. 8 situací, bodování, tipy a závěrečných 5 zlatých pravidel bezpečnosti.",
             category: "education",
             story: "Inspirovala mě Jasmína Houdek, když sdílela pravidla bezpečného chování, o kterých bychom měli mluvit s dětmi. Na základě screenshotu z LinkedInu vznikla tahle jednoduchá hra.",

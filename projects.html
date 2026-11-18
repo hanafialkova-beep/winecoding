@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekty | WineCoding</title>
-    <meta name="description" content="Prohlédni si passion projekty od kreativních lidí — vzdělávání, domácnost, kreativita, wellbeing, zábava i utility.">
+    <meta name="description" content="Prohlédni si passion projekty od kreativních lidí: vzdělávání, domácnost, kreativita, wellbeing, zábava i utility.">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <!-- Open Graph / sociální sítě -->
@@ -16,6 +16,8 @@
     <meta property="og:locale" content="cs_CZ">
     <meta name="twitter:card" content="summary_large_image">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,7 +41,8 @@
 
     <!-- Page Header -->
     <header class="page-header">
-        <h1>Projekty</h1>
+        <span class="eyebrow">Galerie</span>
+        <h1>Projekty <em>z radosti</em></h1>
         <p>Passion projekty od kreativních lidí</p>
     </header>
 
@@ -98,6 +101,7 @@
                 <a href="submit.html">Přidej projekt</a>
                 <a href="admin.html">Admin</a>
             </div>
+            <div class="footer-wordmark" aria-hidden="true">WineCoding</div>
             <p class="footer-copy">© 2026 WineCoding. Made with 🍷, 🤖 and ❤️</p>
         </div>
     </footer>
@@ -105,6 +109,7 @@
     <script src="config.js"></script>
     <script src="data.js"></script>
     <script type="module" src="db.js"></script>
+    <script src="ui.js"></script>
     <script>
         const categoryNames = {
             education: 'Vzdělávání',
@@ -225,7 +230,7 @@
                 <div style="margin-bottom:1.5rem;">
                     <span class="project-category-badge">${categoryEmoji[project.category] || ''} ${catLabel}</span>
                 </div>
-                <h2 style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:600;margin-bottom:1rem;color:var(--text-primary);">${esc(project.name)}</h2>
+                <h2 style="font-family:var(--font-display);font-size:1.6rem;font-weight:600;margin-bottom:1rem;color:var(--text-primary);">${esc(project.name)}</h2>
                 <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:1.5rem;">${esc(project.description)}</p>
                 ${project.story ? `
                     <div style="background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:1.25rem;margin-bottom:1.5rem;">

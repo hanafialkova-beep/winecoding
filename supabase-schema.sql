@@ -118,7 +118,7 @@ create policy "admin can delete"
 insert into public.projects (name, url, description, category, story, author_name, status, image)
 select
     'Bezpečná cesta domů',
-    'https://bezpecnedomu.macaly.app',
+    'https://bezpecna-cesta-domu.vercel.app',
     'Jednoduchá hra pro děti. Jak se chovat bezpečně při cestě domů. 8 situací, bodování, tipy a závěrečných 5 zlatých pravidel bezpečnosti.',
     'education',
     'Inspirovala mě Jasmína Houdek, když sdílela pravidla bezpečného chování, o kterých bychom měli mluvit s dětmi. Na základě screenshotu z LinkedInu vznikla tahle jednoduchá hra.',
