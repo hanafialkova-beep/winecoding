@@ -61,12 +61,12 @@ const WineCodeData = {
 
     // Kategorie projektů
     categories: [
-        { id: "education", name: "Vzdělávání", description: "Apky pro děti, učební pomůcky, kvízy", color: "#E8B4B8" },
-        { id: "home", name: "Domácnost", description: "Organizace, rodinný život, plánování", color: "#B8D4E8" },
-        { id: "creative", name: "Kreativita", description: "Generátory, nástroje pro tvůrce", color: "#D4B8E8" },
-        { id: "wellbeing", name: "Wellbeing", description: "Zdraví, mindfulness, habits", color: "#B8E8C4" },
-        { id: "fun", name: "Zábava", description: "Hry, kvízy, fun projekty", color: "#E8D4B8" },
-        { id: "utility", name: "Utility", description: "Pomocné nástroje, kalkulačky", color: "#C4C4C4" }
+        { id: "education", name: "Vzdělávání", description: "Apky pro děti, učební pomůcky, kvízy", color: "#E8B4B8", examples: ["procvičování pravopisu", "malá násobilka", "anglická slovíčka", "kvíz z vlastivědy"] },
+        { id: "home", name: "Domácnost", description: "Organizace, rodinný život, plánování", color: "#B8D4E8", examples: ["rozpis úklidu pro děti", "plánovač jídel na týden", "kalendář vývozu odpadu", "rodinný nákupní seznam"] },
+        { id: "creative", name: "Kreativita", description: "Generátory, nástroje pro tvůrce", color: "#D4B8E8", examples: ["generátor jmen pro postavy", "omalovánky na tisk", "pohádky na dobrou noc", "nápady na dárky"] },
+        { id: "wellbeing", name: "Wellbeing", description: "Zdraví, mindfulness, habits", color: "#B8E8C4", examples: ["dechová cvičení", "deník vděčnosti", "hlídání pitného režimu", "připomínka na protažení"] },
+        { id: "fun", name: "Zábava", description: "Hry, kvízy, fun projekty", color: "#E8D4B8", examples: ["rodinný kvíz", "hra na dlouhou cestu autem", "bingo na oslavu", "hledání pokladu"] },
+        { id: "utility", name: "Utility", description: "Pomocné nástroje, kalkulačky", color: "#C4C4C4", examples: ["kalkulačka kapesného", "převodník receptů", "odpočet do prázdnin", "počítadlo bodů na deskovky"] }
     ],
 
     // Výchozí/ukázkové projekty

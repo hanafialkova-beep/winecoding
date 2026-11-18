@@ -166,7 +166,9 @@
             if (projects.length === 0) {
                 if (loadedProjects.length > 0) {
                     const catLabel = categoryNames[activeFilter] || activeFilter;
-                    showEmptyState(`V kategorii ${catLabel} zatím nic není. Přidáš první projekt?`, 'Přidej projekt');
+                    const catDef = WineCodeData.categories.find(c => c.id === activeFilter);
+                    const ex = catDef && catDef.examples ? ` Hodí se sem třeba ${catDef.examples.join(', ')}.` : '';
+                    showEmptyState(`V kategorii ${catLabel} zatím nic není.${ex} Přidáš první projekt?`, 'Přidej projekt');
                 } else {
                     showEmptyState('Zatím tu žádné projekty nejsou.', 'Buď první!');
                 }

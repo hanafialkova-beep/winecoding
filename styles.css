@@ -1413,3 +1413,19 @@ footer {
     overflow: hidden;
     margin: 0 0 1.5rem;
 }
+
+/* Příklady projektů v kategoriích */
+.category-examples {
+    margin-top: 0.6rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+.field-hint {
+    margin-top: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+#emptyText { max-width: 560px; margin: 0 auto; }
+.category-card > div { margin-top: 2.6rem; }
+@media (max-width: 640px) { .category-card > div { margin-top: 1.6rem; } .category-examples { font-size: 0.82rem; } }
