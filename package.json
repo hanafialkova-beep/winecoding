@@ -1,0 +1,8 @@
+{
+  "name": "winecoding",
+  "private": true,
+  "description": "WineCoding: statický web + serverová funkce api/notify pro e-maily",
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}

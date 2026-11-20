@@ -2,14 +2,6 @@
 // Všechny texty a data na jednom místě - editovatelné přes admin
 
 const WineCodeData = {
-    // EmailJS konfigurace - VYPLŇ SVÉ ÚDAJE z emailjs.com
-    emailConfig: {
-        serviceId: '',      // např. 'service_xxx'
-        templateIdSubmit: '', // template pro potvrzení odeslání
-        templateIdApproved: '', // template pro schválení
-        publicKey: ''       // tvůj public key
-    },
-
     // Hlavní texty stránky
     texts: {
         hero: {
@@ -257,66 +249,9 @@ const WineCodeData = {
             hash = hash & hash;
         }
         return Math.abs(hash);
-    },
-
-    // Odeslání emailu přes EmailJS
-    async sendEmail(type, data) {
-        if (!this.emailConfig.serviceId || !this.emailConfig.publicKey) {
-            console.log('📧 Email by byl odeslán (EmailJS není nakonfigurovaný):', type, data);
-            return { success: false, reason: 'not_configured' };
-        }
-
-        if (typeof emailjs === 'undefined') {
-            console.warn('EmailJS knihovna není načtená');
-            return { success: false, reason: 'library_not_loaded' };
-        }
-
-        try {
-            const templateId = type === 'submit' 
-                ? this.emailConfig.templateIdSubmit 
-                : this.emailConfig.templateIdApproved;
-
-            await emailjs.send(
-                this.emailConfig.serviceId,
-                templateId,
-                data,
-                this.emailConfig.publicKey
-            );
-            
-            console.log('✅ Email odeslán:', type);
-            return { success: true };
-        } catch (error) {
-            console.error('❌ Chyba při odesílání emailu:', error);
-            return { success: false, error };
-        }
-    },
-
-    async sendSubmitConfirmation(project) {
-        if (!project.email) return;
-        return this.sendEmail('submit', {
-            to_email: project.email,
-            to_name: project.authorName || 'Příteli',
-            project_name: project.name,
-            message: `Děkujeme za přidání projektu "${project.name}" na WineCoding! Tvůj projekt nyní projde rychlou kontrolou. Jakmile bude schválen, dáme ti vědět.`
-        });
-    },
-
-    async sendApprovalEmail(project) {
-        if (!project.email) return;
-        return this.sendEmail('approved', {
-            to_email: project.email,
-            to_name: project.authorName || 'Příteli',
-            project_name: project.name,
-            project_url: project.url,
-            message: `Skvělá zpráva! Tvůj projekt "${project.name}" byl schválen a je nyní živý na WineCoding. Díky, že sdílíš svou práci s komunitou!`
-        });
     }
 };
 
 // Load saved texts and email config on init
 WineCodeData.load();
 
-const savedEmailConfig = localStorage.getItem('winecoding_email_config');
-if (savedEmailConfig) {
-    WineCodeData.emailConfig = JSON.parse(savedEmailConfig);
-}

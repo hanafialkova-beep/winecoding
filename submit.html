@@ -154,8 +154,6 @@
         </div>
     </footer>
 
-    <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="config.js"></script>
     <script src="data.js"></script>
     <script type="module" src="db.js"></script>
@@ -240,11 +238,7 @@
                 return;
             }
 
-            // Send confirmation email (nepovinné)
-            if (project.email) {
-                try { await WineCodeData.sendSubmitConfirmation(project); }
-                catch (e) { console.warn('Email se nepodařilo odeslat:', e); }
-            }
+            // E-maily posílá server (api/notify) po uložení do databáze
 
             // Show success
             document.getElementById('submitForm').style.display = 'none';

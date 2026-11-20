@@ -5,3 +5,5 @@
 .env.*.local
 node_modules/
 *.log
+supabase-notify.local.sql
+.vercel

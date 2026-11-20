@@ -678,81 +678,14 @@
             <!-- Emails Tab -->
             <div class="tab-content" id="tab-emails">
                 <div class="text-editor-section">
-                    <h3 class="text-editor-title">📧 Nastavení EmailJS</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.7;">
-                        Pro odesílání emailů použij službu <a href="https://www.emailjs.com/" target="_blank" style="color: var(--wine-light);">EmailJS</a> (zdarma do 200 emailů/měsíc).<br><br>
-                        <strong style="color: var(--text-primary);">Jak na to:</strong><br>
-                        1. Zaregistruj se na emailjs.com<br>
-                        2. Přidej Email Service (např. Gmail)<br>
-                        3. Vytvoř 2 šablony (pro potvrzení a schválení)<br>
-                        4. Zkopíruj údaje níže
+                    <h3 class="text-editor-title">📧 E-maily</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.7;">
+                        E-maily odesílá server webu (<code>api/notify</code>) z účtu WineCoding v Gmailu. Spouští ho databáze při novém a schváleném projektu.<br>
+                        Odchází tři druhy zpráv:<br>
+                        1. <strong>Upozornění pro admina</strong>, když někdo přidá projekt.<br>
+                        2. <strong>Potvrzení autorovi</strong> po odeslání, pokud vyplnil e-mail.<br>
+                        3. <strong>Zpráva o schválení</strong> autorovi po kliknutí na Schválit.
                     </p>
-                    
-                    <div class="text-field">
-                        <label>Service ID</label>
-                        <input type="text" id="email-serviceId" placeholder="service_xxxxxxx">
-                        <small>Najdeš v Email Services → klikni na svůj service</small>
-                    </div>
-                    <div class="text-field">
-                        <label>Template ID - Potvrzení odeslání</label>
-                        <input type="text" id="email-templateSubmit" placeholder="template_xxxxxxx">
-                        <small>Šablona pro email "Děkujeme za přidání projektu"</small>
-                    </div>
-                    <div class="text-field">
-                        <label>Template ID - Schválení projektu</label>
-                        <input type="text" id="email-templateApproved" placeholder="template_xxxxxxx">
-                        <small>Šablona pro email "Tvůj projekt byl schválen"</small>
-                    </div>
-                    <div class="text-field">
-                        <label>Public Key</label>
-                        <input type="text" id="email-publicKey" placeholder="xxxxxxxxxxxxxxx">
-                        <small>Najdeš v Account → API Keys → Public Key</small>
-                    </div>
-
-                    <button class="btn-primary save-texts-btn" onclick="saveEmailConfig()">
-                        Uložit nastavení emailů
-                    </button>
-                    <span class="save-feedback" id="emailSaveFeedback">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 6L9 17l-5-5"/>
-                        </svg>
-                        Uloženo!
-                    </span>
-                </div>
-
-                <div class="text-editor-section">
-                    <h3 class="text-editor-title">📋 Šablony pro EmailJS</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6;">
-                        V EmailJS vytvoř šablony s těmito proměnnými:
-                    </p>
-                    
-                    <div class="email-template-box">
-                        <strong>Šablona: Potvrzení odeslání</strong>
-                        <pre>To: {{to_email}}
-Subject: Díky za přidání projektu na WineCoding!
-
-Ahoj {{to_name}},
-
-{{message}}
-
-S pozdravem,
-WineCoding tým 🍷</pre>
-                    </div>
-
-                    <div class="email-template-box">
-                        <strong>Šablona: Schválení projektu</strong>
-                        <pre>To: {{to_email}}
-Subject: Tvůj projekt {{project_name}} je živý!
-
-Ahoj {{to_name}},
-
-{{message}}
-
-Odkaz na projekt: {{project_url}}
-
-S pozdravem,
-WineCoding tým 🍷</pre>
-                    </div>
                 </div>
 
                 <div class="text-editor-section">
@@ -793,8 +726,6 @@ WineCoding tým 🍷</pre>
         </div>
     </footer>
 
-    <!-- EmailJS library -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="config.js"></script>
     <script src="data.js"></script>
     <script type="module" src="db.js"></script>
@@ -1016,14 +947,7 @@ WineCoding tým 🍷</pre>
                 return;
             }
 
-            if (project && project.email) {
-                const result = await WineCodeData.sendApprovalEmail(project);
-                if (result.success) {
-                    alert('✅ Projekt schválen a email odeslán!');
-                } else if (result.reason === 'not_configured') {
-                    console.log('Email nebyl odeslán - EmailJS není nakonfigurovaný');
-                }
-            }
+            // E-mail o schválení posílá autorovi server (api/notify)
 
             loadProjects();
         }
@@ -1142,35 +1066,7 @@ WineCoding tým 🍷</pre>
         }
 
         // Load email config
-        function loadEmailConfig() {
-            const config = JSON.parse(localStorage.getItem('winecoding_email_config') || '{}');
-            
-            document.getElementById('email-serviceId').value = config.serviceId || '';
-            document.getElementById('email-templateSubmit').value = config.templateIdSubmit || '';
-            document.getElementById('email-templateApproved').value = config.templateIdApproved || '';
-            document.getElementById('email-publicKey').value = config.publicKey || '';
-            
-            if (config.serviceId) {
-                WineCodeData.emailConfig = config;
-            }
-        }
-
-        // Save email config
-        function saveEmailConfig() {
-            const config = {
-                serviceId: document.getElementById('email-serviceId').value,
-                templateIdSubmit: document.getElementById('email-templateSubmit').value,
-                templateIdApproved: document.getElementById('email-templateApproved').value,
-                publicKey: document.getElementById('email-publicKey').value
-            };
-            
-            localStorage.setItem('winecoding_email_config', JSON.stringify(config));
-            WineCodeData.emailConfig = config;
-            
-            const feedback = document.getElementById('emailSaveFeedback');
-            feedback.classList.add('show');
-            setTimeout(() => feedback.classList.remove('show'), 2000);
-        }
+        function loadEmailConfig() {}
 
         // Load email list from projects
         function loadEmailList() {
